@@ -1,0 +1,46 @@
+{
+  "name": "amimoto-cdk",
+  "version": "0.1.0",
+  "bin": {
+    "amimoto-cdk": "bin/amimoto-cdk.js"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run tsc",
+    "tsc": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk",
+    "clean": "rimraf cdk.out/* lib/***/*.js lib/***/*.d.ts bin/*.js bin/*.d.ts",
+    "export": "rimraf dist/* && npm run build && ts-node ./bin/build.ts",
+    "deploy-all": "npm run build && npm run cdk deploy \"*\" -f",
+    "destroy-all": "npm run cdk destroy \"*\"",
+    "synth": "npm run build && npm run cdk synth",
+    "validate": "npm run synth > test.yml && aws cloudformation validate-template --template-body file://test.yml && rm -f test.yml"
+  },
+  "devDependencies": {
+    "@aws-cdk/assert": "^1.35.0",
+    "@types/jest": "^24.0.22",
+    "@types/js-yaml": "^3.12.3",
+    "@types/node": "10.17.5",
+    "aws-cdk": "^1.35.0",
+    "jest": "^24.9.0",
+    "js-yaml": "^3.13.1",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^8.1.0",
+    "typescript": "~3.7.2"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-autoscaling": "^1.35.0",
+    "@aws-cdk/aws-certificatemanager": "1.35",
+    "@aws-cdk/aws-cloudfront": "^1.35.0",
+    "@aws-cdk/aws-ec2": "^1.35.0",
+    "@aws-cdk/aws-elasticloadbalancingv2": "1.35.0",
+    "@aws-cdk/aws-iam": "1.35.0",
+    "@aws-cdk/aws-rds": "1.35.0",
+    "@aws-cdk/core": "^1.35.0",
+    "aws-sdk": "^2.664.0",
+    "moment": "^2.25.3",
+    "source-map-support": "^0.5.16"
+  }
+}

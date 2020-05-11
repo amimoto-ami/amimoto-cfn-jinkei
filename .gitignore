@@ -1,0 +1,14 @@
+*.js
+!jest.config.js
+*.d.ts
+node_modules
+
+#CDKassetstagingdirectory
+.cdk.staging
+cdk.out
+.envrc
+dev.ts
+.DS_Store
+test.log
+test.yml
+test1.yml
