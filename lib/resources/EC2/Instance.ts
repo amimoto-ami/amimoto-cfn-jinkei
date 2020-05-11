@@ -47,7 +47,7 @@ export default class EC2Resource {
               MappingNames.MPAmimotoAMIID,
               Aws.REGION,
               'ID'
-          ),//'ami-082ce0174512fd817',
+          ),
           iamInstanceProfile: iamInstanceProfile.ref,
           instanceType: this.params.instanceTypes.valueAsString,
           networkInterfaces:[{

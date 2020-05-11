@@ -342,9 +342,13 @@ export default class CloudFrontResource {
                 ),
             }
         })
-        
+          new CfnOutput(stack, 'CloudFrontID', {
+            value: cdn.ref,
+            description: 'Need to configure the C3 CloudFront Cache Clear plugin in the WordPress admin.'
+          })
           new CfnOutput(stack, 'Domain', {
               value: cdn.getAtt('DomainName').toString(),
+              description: 'The WordPress site domain from the CDN.'
           })
           return cdn
     }
