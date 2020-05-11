@@ -35,14 +35,19 @@ export const createCFNConditions = (stack: Stack, cfnParameter: StackParameters)
             )
         }
     )
-    new CfnCondition(
-        stack,
-        CFNConditionNames.IsMultiAZDatabase,
-        {
-            expression: Fn.conditionEquals(
-                cfnParameter.isMultiAZDatabase,
-                "true"
-            )
-        }
-    )
+    console.log({
+        r: cfnParameter.isMultiAZDatabase
+    })
+    if (cfnParameter.isMultiAZDatabase) {
+        new CfnCondition(
+            stack,
+            CFNConditionNames.IsMultiAZDatabase,
+            {
+                expression: Fn.conditionEquals(
+                    cfnParameter.isMultiAZDatabase,
+                    "true"
+                )
+            }
+        )
+    }
 }

@@ -38,77 +38,6 @@
     }
   },
   "Parameters": {
-    "DBUsername": {
-      "Type": "String",
-      "Default": "admin",
-      "Description": "Database username"
-    },
-    "DBPassword": {
-      "Type": "String",
-      "Default": "amimotoAMI#123",
-      "Description": "Database password"
-    },
-    "DBMultiAz": {
-      "Type": "String",
-      "Default": "true",
-      "AllowedValues": [
-        "true",
-        "false"
-      ],
-      "Description": "Create a Multi-AZ RDS Database Instance"
-    },
-    "DBInstanceClass": {
-      "Type": "String",
-      "Default": "t3.medium",
-      "AllowedValues": [
-        "m3.2xlarge",
-        "m3.large",
-        "m3.medium",
-        "m3.xlarge",
-        "m4.10xlarge",
-        "m4.16xlarge",
-        "m4.2xlarge",
-        "m4.4xlarge",
-        "m4.large",
-        "m4.xlarge",
-        "m5.12xlarge",
-        "m5.24xlarge",
-        "m5.2xlarge",
-        "m5.4xlarge",
-        "m5.large",
-        "m5.xlarge",
-        "r3.2xlarge",
-        "r3.4xlarge",
-        "r3.8xlarge",
-        "r3.large",
-        "r3.xlarge",
-        "r4.16xlarge",
-        "r4.2xlarge",
-        "r4.4xlarge",
-        "r4.8xlarge",
-        "r4.large",
-        "r4.xlarge",
-        "r5.12xlarge",
-        "r5.24xlarge",
-        "r5.2xlarge",
-        "r5.4xlarge",
-        "r5.large",
-        "r5.xlarge",
-        "t2.2xlarge",
-        "t2.large",
-        "t2.medium",
-        "t2.micro",
-        "t2.small",
-        "t2.xlarge",
-        "t3.2xlarge",
-        "t3.large",
-        "t3.medium",
-        "t3.micro",
-        "t3.small",
-        "t3.xlarge"
-      ],
-      "Description": "Instance type."
-    },
     "CDNCookieWhiteLists": {
       "Type": "CommaDelimitedList",
       "Default": "",
@@ -235,32 +164,14 @@
       "ap-northeast-2": {
         "ID": "ami-00c98be6e9c1d66b2"
       },
-      "ap-southeast-1": {
-        "ID": "ami-04d181614a6517ef0"
-      },
       "ap-south-1": {
         "ID": "ami-097dcad7138ccb536"
-      },
-      "us-west-1": {
-        "ID": "ami-0fc4ffa86af79d63c"
-      },
-      "us-east-2": {
-        "ID": "ami-059b263c628bd4024"
-      },
-      "ap-southeast-2": {
-        "ID": "ami-0e9565e36d146bdde"
       },
       "eu-north-1": {
         "ID": "ami-44f0793a"
       },
-      "us-east-1": {
-        "ID": "ami-08ade0705b256fd98"
-      },
-      "us-west-2": {
-        "ID": "ami-0cea9f4f0c9b50387"
-      },
-      "ca-central-1": {
-        "ID": "ami-0926a670bad4c8b5f"
+      "ap-southeast-1": {
+        "ID": "ami-04d181614a6517ef0"
       },
       "eu-west-3": {
         "ID": "ami-0b14b8c57ecae29c3"
@@ -268,11 +179,29 @@
       "eu-west-2": {
         "ID": "ami-051fb6b81e63938e1"
       },
-      "eu-west-1": {
-        "ID": "ami-02b8792004857dbfd"
+      "ap-southeast-2": {
+        "ID": "ami-0e9565e36d146bdde"
+      },
+      "ca-central-1": {
+        "ID": "ami-0926a670bad4c8b5f"
+      },
+      "us-west-2": {
+        "ID": "ami-0cea9f4f0c9b50387"
+      },
+      "us-west-1": {
+        "ID": "ami-0fc4ffa86af79d63c"
+      },
+      "us-east-2": {
+        "ID": "ami-059b263c628bd4024"
       },
       "eu-central-1": {
         "ID": "ami-0045f4bc81be2f366"
+      },
+      "us-east-1": {
+        "ID": "ami-08ade0705b256fd98"
+      },
+      "eu-west-1": {
+        "ID": "ami-02b8792004857dbfd"
       },
       "sa-east-1": {
         "ID": "ami-0c05904702174ae1e"
@@ -311,9 +240,6 @@
     },
     "IsMultiAZDatabase": {
       "Fn::Equals": [
-        {
-          "Ref": "DBMultiAz"
-        },
         "true"
       ]
     }
@@ -333,7 +259,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC"
+            "Value": "JINKEISingle/AMIMOTO-VPC"
           }
         ]
       }
@@ -361,7 +287,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For EC2Subnet1"
+            "Value": "JINKEISingle/AMIMOTO-VPC/For EC2Subnet1"
           },
           {
             "Key": "aws-cdk:subnet-name",
@@ -387,7 +313,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For EC2Subnet1"
+            "Value": "JINKEISingle/AMIMOTO-VPC/For EC2Subnet1"
           }
         ]
       }
@@ -441,7 +367,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For EC2Subnet2"
+            "Value": "JINKEISingle/AMIMOTO-VPC/For EC2Subnet2"
           },
           {
             "Key": "aws-cdk:subnet-name",
@@ -467,7 +393,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For EC2Subnet2"
+            "Value": "JINKEISingle/AMIMOTO-VPC/For EC2Subnet2"
           }
         ]
       }
@@ -521,7 +447,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For DBSubnet1"
+            "Value": "JINKEISingle/AMIMOTO-VPC/For DBSubnet1"
           },
           {
             "Key": "aws-cdk:subnet-name",
@@ -547,7 +473,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For DBSubnet1"
+            "Value": "JINKEISingle/AMIMOTO-VPC/For DBSubnet1"
           }
         ]
       }
@@ -586,7 +512,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For DBSubnet2"
+            "Value": "JINKEISingle/AMIMOTO-VPC/For DBSubnet2"
           },
           {
             "Key": "aws-cdk:subnet-name",
@@ -612,7 +538,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For DBSubnet2"
+            "Value": "JINKEISingle/AMIMOTO-VPC/For DBSubnet2"
           }
         ]
       }
@@ -638,7 +564,7 @@
           },
           {
             "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC"
+            "Value": "JINKEISingle/AMIMOTO-VPC"
           }
         ]
       }
@@ -657,7 +583,7 @@
     "SecurityGroupForInstance9EE06232": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "JINKEISingleMaria/SecurityGroupForInstance",
+        "GroupDescription": "JINKEISingle/SecurityGroupForInstance",
         "GroupName": "For EC2",
         "SecurityGroupEgress": [
           {
@@ -716,7 +642,7 @@
     "SecurityGroupForDatabaseE9719927": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "JINKEISingleMaria/SecurityGroupForDatabase",
+        "GroupDescription": "JINKEISingle/SecurityGroupForDatabase",
         "GroupName": "For Database",
         "SecurityGroupEgress": [
           {
@@ -736,7 +662,7 @@
         }
       }
     },
-    "SecurityGroupForDatabasefromJINKEISingleMariaSecurityGroupForInstance11BED5903306AFB580F8": {
+    "SecurityGroupForDatabasefromJINKEISingleSecurityGroupForInstance56E1F639330683D42F44": {
       "Type": "AWS::EC2::SecurityGroupIngress",
       "Properties": {
         "IpProtocol": "tcp",
@@ -760,7 +686,7 @@
     "SecurityGroupForLoadBalancer41D4B6A5": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "JINKEISingleMaria/SecurityGroupForLoadBalancer",
+        "GroupDescription": "JINKEISingle/SecurityGroupForLoadBalancer",
         "GroupName": "For LoadBalancer",
         "SecurityGroupEgress": [
           {
@@ -855,116 +781,6 @@
         ]
       }
     },
-    "DatabaseSubnetGroup7D60F180": {
-      "Type": "AWS::RDS::DBSubnetGroup",
-      "Properties": {
-        "DBSubnetGroupDescription": "Subnet group for Database database",
-        "SubnetIds": [
-          {
-            "Ref": "AMIMOTOVPCForDBSubnet1Subnet15AA28A7"
-          },
-          {
-            "Ref": "AMIMOTOVPCForDBSubnet2SubnetFF04A2AE"
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "Generator",
-            "Value": "JIN-KEI powered by AMIMOTO"
-          }
-        ]
-      },
-      "DependsOn": [
-        "AMIMOTOVPCForDBSubnet1RouteTable94EB63C7",
-        "AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382",
-        "AMIMOTOVPCForDBSubnet1Subnet15AA28A7",
-        "AMIMOTOVPCForDBSubnet2RouteTable425BD6A3",
-        "AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28",
-        "AMIMOTOVPCForDBSubnet2SubnetFF04A2AE",
-        "AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732",
-        "AMIMOTOVPCForEC2Subnet1RouteTableDD359F04",
-        "AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E",
-        "AMIMOTOVPCForEC2Subnet1Subnet39FF3515",
-        "AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3",
-        "AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E",
-        "AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873",
-        "AMIMOTOVPCForEC2Subnet2Subnet51A2110D",
-        "AMIMOTOVPCIGWB41F301F",
-        "AMIMOTOVPC2FEB3257",
-        "AMIMOTOVPCVPCGW1E90E832"
-      ]
-    },
-    "DatabaseB269D8BB": {
-      "Type": "AWS::RDS::DBInstance",
-      "Properties": {
-        "DBInstanceClass": {
-          "Fn::Join": [
-            "",
-            [
-              "db.",
-              {
-                "Ref": "DBInstanceClass"
-              }
-            ]
-          ]
-        },
-        "AllocatedStorage": "100",
-        "CopyTagsToSnapshot": true,
-        "DBInstanceIdentifier": "JINKEISingleMaria-Database",
-        "DBName": "wordpress",
-        "DBSubnetGroupName": {
-          "Ref": "DatabaseSubnetGroup7D60F180"
-        },
-        "DeletionProtection": false,
-        "Engine": "mariadb",
-        "MasterUsername": {
-          "Ref": "DBUsername"
-        },
-        "MasterUserPassword": {
-          "Ref": "DBPassword"
-        },
-        "MultiAZ": {
-          "Ref": "DBMultiAz"
-        },
-        "PubliclyAccessible": false,
-        "StorageType": "gp2",
-        "Tags": [
-          {
-            "Key": "Generator",
-            "Value": "JIN-KEI powered by AMIMOTO"
-          }
-        ],
-        "VPCSecurityGroups": [
-          {
-            "Fn::GetAtt": [
-              "SecurityGroupForDatabaseE9719927",
-              "GroupId"
-            ]
-          }
-        ]
-      },
-      "DependsOn": [
-        "AMIMOTOVPCForDBSubnet1RouteTable94EB63C7",
-        "AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382",
-        "AMIMOTOVPCForDBSubnet1Subnet15AA28A7",
-        "AMIMOTOVPCForDBSubnet2RouteTable425BD6A3",
-        "AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28",
-        "AMIMOTOVPCForDBSubnet2SubnetFF04A2AE",
-        "AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732",
-        "AMIMOTOVPCForEC2Subnet1RouteTableDD359F04",
-        "AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E",
-        "AMIMOTOVPCForEC2Subnet1Subnet39FF3515",
-        "AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3",
-        "AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E",
-        "AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873",
-        "AMIMOTOVPCForEC2Subnet2Subnet51A2110D",
-        "AMIMOTOVPCIGWB41F301F",
-        "AMIMOTOVPC2FEB3257",
-        "AMIMOTOVPCVPCGW1E90E832"
-      ],
-      "UpdateReplacePolicy": "Delete",
-      "DeletionPolicy": "Delete"
-    },
     "InstanceProfile": {
       "Type": "AWS::IAM::InstanceProfile",
       "Properties": {
@@ -1029,7 +845,7 @@
                 {
                   "Ref": "AWS::Region"
                 },
-                " --stack JINKEISingleMaria --resource amimotoEC2\n\n/opt/aws/bin/cfn-hup\n\n## AMIMOTO CFN Flags\ntmp_json=\"mktemp\"\namimoto_json='/opt/local/amimoto.json'\njson='{\"wordpress\":{\"jinkei_cf\":\"true\"}}'\n[ ! -e /opt/local ] && /bin/mkdir -p /opt/local\nif [ -f $amimoto_json ]; then\n    hash jq || sudo /usr/bin/yum install -y jq\n    /usr/bin/jq -s '.[0] * .[1]' $amimoto_json <(echo $json) > $tmp_json\nelse\n    echo $json > $tmp_json\nfi\n[ -f $tmp_json ] && sudo /bin/mv -f $tmp_json $amimoto_json\n\n## Wait for WP Setup\nuntil find /var/www/vhosts -name wp-config.php  ; do sleep 5 ; done\n\n/opt/aws/bin/cfn-signal -e 0  --stack JINKEISingleMaria  --resource amimotoEC2  --region ",
+                " --stack JINKEISingle --resource amimotoEC2\n\n/opt/aws/bin/cfn-hup\n\n## AMIMOTO CFN Flags\ntmp_json=\"mktemp\"\namimoto_json='/opt/local/amimoto.json'\njson='{\"wordpress\":{\"jinkei_cf\":\"true\"}}'\n[ ! -e /opt/local ] && /bin/mkdir -p /opt/local\nif [ -f $amimoto_json ]; then\n    hash jq || sudo /usr/bin/yum install -y jq\n    /usr/bin/jq -s '.[0] * .[1]' $amimoto_json <(echo $json) > $tmp_json\nelse\n    echo $json > $tmp_json\nfi\n[ -f $tmp_json ] && sudo /bin/mv -f $tmp_json $amimoto_json\n\n## Wait for WP Setup\nuntil find /var/www/vhosts -name wp-config.php  ; do sleep 5 ; done\n\n/opt/aws/bin/cfn-signal -e 0  --stack JINKEISingle  --resource amimotoEC2  --region ",
                 {
                   "Ref": "AWS::Region"
                 }
@@ -1082,36 +898,7 @@
           "default": {
             "files": {
               "/opt/aws/cloud_formation.json": {
-                "content": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "{\"rds\":{\"database\":\"wordpress\",\"username\":\"",
-                      {
-                        "Ref": "DBUsername"
-                      },
-                      "\",\"password\":\"",
-                      {
-                        "Ref": "DBPassword"
-                      },
-                      "\",\"port\":\"",
-                      {
-                        "Fn::GetAtt": [
-                          "DatabaseB269D8BB",
-                          "Endpoint.Port"
-                        ]
-                      },
-                      "\",\"endpoint\":\"",
-                      {
-                        "Fn::GetAtt": [
-                          "DatabaseB269D8BB",
-                          "Endpoint.Address"
-                        ]
-                      },
-                      "\"}}"
-                    ]
-                  ]
-                },
+                "content": "{}",
                 "mode": "00644",
                 "owner": "root",
                 "group": "root"

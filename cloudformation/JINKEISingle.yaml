@@ -22,49 +22,6 @@ Metadata:
           - EC2SSHLocationIP
           - EC2KeyPairName
 Parameters:
-  DBUsername:
-    Type: String
-    Default: admin
-    Description: Database username
-  DBPassword:
-    Type: String
-    Default: 'amimotoAMI#123'
-    Description: Database password
-  DBMultiAz:
-    Type: String
-    Default: 'true'
-    AllowedValues:
-      - 'true'
-      - 'false'
-    Description: Create a Multi-AZ RDS Database Instance
-  DBInstanceClass:
-    Type: String
-    Default: t3.medium
-    AllowedValues:
-      - r3.2xlarge
-      - r3.4xlarge
-      - r3.8xlarge
-      - r3.large
-      - r3.xlarge
-      - r4.16xlarge
-      - r4.2xlarge
-      - r4.4xlarge
-      - r4.8xlarge
-      - r4.large
-      - r4.xlarge
-      - r5.12xlarge
-      - r5.16xlarge
-      - r5.24xlarge
-      - r5.2xlarge
-      - r5.4xlarge
-      - r5.8xlarge
-      - r5.large
-      - r5.xlarge
-      - t2.medium
-      - t2.small
-      - t3.medium
-      - t3.small
-    Description: Instance type.
   CDNCookieWhiteLists:
     Type: CommaDelimitedList
     Default: ''
@@ -179,30 +136,30 @@ Mappings:
       ID: ami-035e5e162165febe0
     ap-northeast-2:
       ID: ami-00c98be6e9c1d66b2
-    ap-southeast-1:
-      ID: ami-04d181614a6517ef0
-    us-west-1:
-      ID: ami-0fc4ffa86af79d63c
-    ap-southeast-2:
-      ID: ami-0e9565e36d146bdde
     ap-south-1:
       ID: ami-097dcad7138ccb536
     eu-north-1:
       ID: ami-44f0793a
-    us-east-2:
-      ID: ami-059b263c628bd4024
-    us-west-2:
-      ID: ami-0cea9f4f0c9b50387
-    ca-central-1:
-      ID: ami-0926a670bad4c8b5f
+    ap-southeast-1:
+      ID: ami-04d181614a6517ef0
     eu-west-3:
       ID: ami-0b14b8c57ecae29c3
-    us-east-1:
-      ID: ami-08ade0705b256fd98
     eu-west-2:
       ID: ami-051fb6b81e63938e1
+    ap-southeast-2:
+      ID: ami-0e9565e36d146bdde
+    ca-central-1:
+      ID: ami-0926a670bad4c8b5f
+    us-west-2:
+      ID: ami-0cea9f4f0c9b50387
+    us-west-1:
+      ID: ami-0fc4ffa86af79d63c
+    us-east-2:
+      ID: ami-059b263c628bd4024
     eu-central-1:
       ID: ami-0045f4bc81be2f366
+    us-east-1:
+      ID: ami-08ade0705b256fd98
     eu-west-1:
       ID: ami-02b8792004857dbfd
     sa-east-1:
@@ -222,7 +179,6 @@ Conditions:
           - ''
   IsMultiAZDatabase:
     'Fn::Equals':
-      - Ref: DBMultiAz
       - 'true'
 Resources:
   AMIMOTOVPC2FEB3257:
@@ -236,7 +192,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC
+          Value: JINKEISingle/AMIMOTO-VPC
   AMIMOTOVPCForEC2Subnet1Subnet39FF3515:
     Type: 'AWS::EC2::Subnet'
     Properties:
@@ -252,7 +208,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC/For EC2Subnet1
+          Value: JINKEISingle/AMIMOTO-VPC/For EC2Subnet1
         - Key: 'aws-cdk:subnet-name'
           Value: For EC2
         - Key: 'aws-cdk:subnet-type'
@@ -266,7 +222,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC/For EC2Subnet1
+          Value: JINKEISingle/AMIMOTO-VPC/For EC2Subnet1
   AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
@@ -299,7 +255,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC/For EC2Subnet2
+          Value: JINKEISingle/AMIMOTO-VPC/For EC2Subnet2
         - Key: 'aws-cdk:subnet-name'
           Value: For EC2
         - Key: 'aws-cdk:subnet-type'
@@ -313,7 +269,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC/For EC2Subnet2
+          Value: JINKEISingle/AMIMOTO-VPC/For EC2Subnet2
   AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
@@ -346,7 +302,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC/For DBSubnet1
+          Value: JINKEISingle/AMIMOTO-VPC/For DBSubnet1
         - Key: 'aws-cdk:subnet-name'
           Value: For DB
         - Key: 'aws-cdk:subnet-type'
@@ -360,7 +316,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC/For DBSubnet1
+          Value: JINKEISingle/AMIMOTO-VPC/For DBSubnet1
   AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
@@ -383,7 +339,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC/For DBSubnet2
+          Value: JINKEISingle/AMIMOTO-VPC/For DBSubnet2
         - Key: 'aws-cdk:subnet-name'
           Value: For DB
         - Key: 'aws-cdk:subnet-type'
@@ -397,7 +353,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC/For DBSubnet2
+          Value: JINKEISingle/AMIMOTO-VPC/For DBSubnet2
   AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28:
     Type: 'AWS::EC2::SubnetRouteTableAssociation'
     Properties:
@@ -412,7 +368,7 @@ Resources:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
         - Key: Name
-          Value: JINKEISingleAurora/AMIMOTO-VPC
+          Value: JINKEISingle/AMIMOTO-VPC
   AMIMOTOVPCVPCGW1E90E832:
     Type: 'AWS::EC2::VPCGatewayAttachment'
     Properties:
@@ -423,7 +379,7 @@ Resources:
   SecurityGroupForInstance9EE06232:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: JINKEISingleAurora/SecurityGroupForInstance
+      GroupDescription: JINKEISingle/SecurityGroupForInstance
       GroupName: For EC2
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
@@ -459,7 +415,7 @@ Resources:
   SecurityGroupForDatabaseE9719927:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: JINKEISingleAurora/SecurityGroupForDatabase
+      GroupDescription: JINKEISingle/SecurityGroupForDatabase
       GroupName: For Database
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
@@ -470,7 +426,7 @@ Resources:
           Value: JIN-KEI powered by AMIMOTO
       VpcId:
         Ref: AMIMOTOVPC2FEB3257
-  SecurityGroupForDatabasefromJINKEISingleAuroraSecurityGroupForInstance0AECEB773306F7325839:
+  SecurityGroupForDatabasefromJINKEISingleSecurityGroupForInstance56E1F639330683D42F44:
     Type: 'AWS::EC2::SecurityGroupIngress'
     Properties:
       IpProtocol: tcp
@@ -488,7 +444,7 @@ Resources:
   SecurityGroupForLoadBalancer41D4B6A5:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: JINKEISingleAurora/SecurityGroupForLoadBalancer
+      GroupDescription: JINKEISingle/SecurityGroupForLoadBalancer
       GroupName: For LoadBalancer
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
@@ -543,141 +499,6 @@ Resources:
       Tags:
         - Key: Generator
           Value: JIN-KEI powered by AMIMOTO
-  DatabaseClusterSubnets7FAE1846:
-    Type: 'AWS::RDS::DBSubnetGroup'
-    Properties:
-      DBSubnetGroupDescription: Subnets for DatabaseCluster database
-      SubnetIds:
-        - Ref: AMIMOTOVPCForDBSubnet1Subnet15AA28A7
-        - Ref: AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
-      Tags:
-        - Key: Generator
-          Value: JIN-KEI powered by AMIMOTO
-    DependsOn:
-      - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
-      - AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382
-      - AMIMOTOVPCForDBSubnet1Subnet15AA28A7
-      - AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
-      - AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28
-      - AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
-      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
-      - AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
-      - AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E
-      - AMIMOTOVPCForEC2Subnet1Subnet39FF3515
-      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
-      - AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
-      - AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873
-      - AMIMOTOVPCForEC2Subnet2Subnet51A2110D
-      - AMIMOTOVPCIGWB41F301F
-      - AMIMOTOVPC2FEB3257
-      - AMIMOTOVPCVPCGW1E90E832
-  DatabaseCluster68FC2945:
-    Type: 'AWS::RDS::DBCluster'
-    Properties:
-      Engine: aurora-mysql
-      DatabaseName: wordpress
-      DBClusterParameterGroupName: default.aurora-mysql5.7
-      DBSubnetGroupName:
-        Ref: DatabaseClusterSubnets7FAE1846
-      EngineVersion: 5.7.12
-      MasterUsername:
-        Ref: DBUsername
-      MasterUserPassword:
-        Ref: DBPassword
-      Port: 3306
-      Tags:
-        - Key: Generator
-          Value: JIN-KEI powered by AMIMOTO
-      VpcSecurityGroupIds:
-        - 'Fn::GetAtt':
-            - SecurityGroupForDatabaseE9719927
-            - GroupId
-    DependsOn:
-      - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
-      - AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382
-      - AMIMOTOVPCForDBSubnet1Subnet15AA28A7
-      - AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
-      - AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28
-      - AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
-      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
-      - AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
-      - AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E
-      - AMIMOTOVPCForEC2Subnet1Subnet39FF3515
-      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
-      - AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
-      - AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873
-      - AMIMOTOVPCForEC2Subnet2Subnet51A2110D
-      - AMIMOTOVPCIGWB41F301F
-      - AMIMOTOVPC2FEB3257
-      - AMIMOTOVPCVPCGW1E90E832
-    UpdateReplacePolicy: Delete
-    DeletionPolicy: Delete
-  DatabaseClusterInstance1C566869D:
-    Type: 'AWS::RDS::DBInstance'
-    Properties:
-      DBInstanceClass: db.t2.small
-      DBClusterIdentifier:
-        Ref: DatabaseCluster68FC2945
-      DBSubnetGroupName:
-        Ref: DatabaseClusterSubnets7FAE1846
-      Engine: aurora-mysql
-      EngineVersion: 5.7.12
-      Tags:
-        - Key: Generator
-          Value: JIN-KEI powered by AMIMOTO
-    DependsOn:
-      - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
-      - AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382
-      - AMIMOTOVPCForDBSubnet1Subnet15AA28A7
-      - AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
-      - AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28
-      - AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
-      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
-      - AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
-      - AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E
-      - AMIMOTOVPCForEC2Subnet1Subnet39FF3515
-      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
-      - AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
-      - AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873
-      - AMIMOTOVPCForEC2Subnet2Subnet51A2110D
-      - AMIMOTOVPCIGWB41F301F
-      - AMIMOTOVPC2FEB3257
-      - AMIMOTOVPCVPCGW1E90E832
-    UpdateReplacePolicy: Delete
-    DeletionPolicy: Delete
-  DatabaseClusterInstance252BB9A46:
-    Type: 'AWS::RDS::DBInstance'
-    Properties:
-      DBInstanceClass: db.t2.small
-      DBClusterIdentifier:
-        Ref: DatabaseCluster68FC2945
-      DBSubnetGroupName:
-        Ref: DatabaseClusterSubnets7FAE1846
-      Engine: aurora-mysql
-      EngineVersion: 5.7.12
-      Tags:
-        - Key: Generator
-          Value: JIN-KEI powered by AMIMOTO
-    DependsOn:
-      - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
-      - AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382
-      - AMIMOTOVPCForDBSubnet1Subnet15AA28A7
-      - AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
-      - AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28
-      - AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
-      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
-      - AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
-      - AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E
-      - AMIMOTOVPCForEC2Subnet1Subnet39FF3515
-      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
-      - AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
-      - AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873
-      - AMIMOTOVPCForEC2Subnet2Subnet51A2110D
-      - AMIMOTOVPCIGWB41F301F
-      - AMIMOTOVPC2FEB3257
-      - AMIMOTOVPCVPCGW1E90E832
-    UpdateReplacePolicy: Delete
-    DeletionPolicy: Delete
   InstanceProfile:
     Type: 'AWS::IAM::InstanceProfile'
     Properties:
@@ -719,7 +540,7 @@ Resources:
                 /opt/aws/bin/cfn-init --region 
               - Ref: 'AWS::Region'
               - >2-
-                 --stack JINKEISingleAurora --resource amimotoEC2
+                 --stack JINKEISingle --resource amimotoEC2
 
                 /opt/aws/bin/cfn-hup
 
@@ -750,8 +571,8 @@ Resources:
                 done
 
 
-                /opt/aws/bin/cfn-signal -e 0  --stack JINKEISingleAurora 
-                --resource amimotoEC2  --region 
+                /opt/aws/bin/cfn-signal -e 0  --stack JINKEISingle  --resource
+                amimotoEC2  --region 
               - Ref: 'AWS::Region'
     DependsOn:
       - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
@@ -788,18 +609,7 @@ Resources:
         default:
           files:
             /opt/aws/cloud_formation.json:
-              content:
-                'Fn::Join':
-                  - ''
-                  - - '{"rds":{"database":"wordpress","username":"'
-                    - Ref: DBUsername
-                    - '","password":"'
-                    - Ref: DBPassword
-                    - '","port":-1.888154589708818e+289,"endpoint":"'
-                    - 'Fn::GetAtt':
-                        - DatabaseCluster68FC2945
-                        - Endpoint.Address
-                    - '"}}'
+              content: '{}'
               mode: '00644'
               owner: root
               group: root

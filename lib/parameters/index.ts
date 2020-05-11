@@ -41,55 +41,58 @@ export enum CFNParameterNames {
 export const createCFNParameters = async (stack: Stack, options: {
     databaseEngine: DatabaseEngine;
 }): Promise<StackParameters> => {
+    const parameters: Partial<StackParameters> = {}
     /**
      * RDS
      */
-    const dbUsername = new CfnParameter(
-        stack,
-        CFNParameterNames.DBUsername,
-        {
-            type: "String",
-            description: "Database username",
-            default: "admin"
-        }
-    )
-    const dbPassword = new CfnParameter(
-        stack,
-        CFNParameterNames.DBPassword,
-        {
-            type: "String",
-            description: "Database password",
-            default: "amimotoAMI#123"
-        }
-    )
-    const isMultiAZDatabase = new CfnParameter(
-        stack,
-        CFNParameterNames.DBMultiAz,
-        {
-            type: "String",
-            description:  "Create a Multi-AZ RDS Database Instance",
-            allowedValues: [
-                "true",
-                "false"
-            ],
-            default: "true"
-        }
-    )
-    const dbInstanceClass = new CfnParameter(
-        stack,
-        CFNParameterNames.DBInstanceClass,
-        {
-            type: "String",
-            description: "Instance type.",
-            default: "t3.medium",
-            allowedValues: await listRDSInstanceClasses(options.databaseEngine)
-        }
-    )
+    if (options.databaseEngine !== 'no-rds') {
+        parameters.dbUsername = new CfnParameter(
+            stack,
+            CFNParameterNames.DBUsername,
+            {
+                type: "String",
+                description: "Database username",
+                default: "admin"
+            }
+        )
+        parameters.dbPassword = new CfnParameter(
+            stack,
+            CFNParameterNames.DBPassword,
+            {
+                type: "String",
+                description: "Database password",
+                default: "amimotoAMI#123"
+            }
+        )
+        parameters.isMultiAZDatabase = new CfnParameter(
+            stack,
+            CFNParameterNames.DBMultiAz,
+            {
+                type: "String",
+                description:  "Create a Multi-AZ RDS Database Instance",
+                allowedValues: [
+                    "true",
+                    "false"
+                ],
+                default: "true"
+            }
+        )
+        parameters.dbInstanceClass = new CfnParameter(
+            stack,
+            CFNParameterNames.DBInstanceClass,
+            {
+                type: "String",
+                description: "Instance type.",
+                default: "t3.medium",
+                allowedValues: await listRDSInstanceClasses(options.databaseEngine)
+            }
+        )
+    }
 
     /**
      * CloudFront Cookie white lists
      */
-    const cdnCookieWhiteLists = new CfnParameter(
+   parameters.cdnCookieWhiteLists = new CfnParameter(
         stack,
         CFNParameterNames.CDNCookieWhiteLists,
         {
@@ -98,7 +101,7 @@ export const createCFNParameters = async (stack: Stack, options: {
             default: ""
         }
     )
-    const cdnPriceClass = new CfnParameter(
+   parameters.cdnPriceClass = new CfnParameter(
         stack,
         CFNParameterNames.CDNPriceClass,
         {
@@ -112,7 +115,7 @@ export const createCFNParameters = async (stack: Stack, options: {
             default:  PriceClass.PRICE_CLASS_ALL
         }
     )
-    const certificationARN = new CfnParameter(
+   parameters.certificationARN = new CfnParameter(
         stack,
         CFNParameterNames.CDNCertificationARN,
         {
@@ -121,7 +124,7 @@ export const createCFNParameters = async (stack: Stack, options: {
             default: "",
         }
     )
-    const domain = new CfnParameter(
+   parameters.domain = new CfnParameter(
         stack,
         CFNParameterNames.Domain,
         {
@@ -134,7 +137,7 @@ export const createCFNParameters = async (stack: Stack, options: {
     /**
      * EC2 Instance
      */
-    const instanceTypes = new CfnParameter(
+    parameters.instanceTypes = new CfnParameter(
         stack,
         CFNParameterNames.EC2InstanceType,
         {
@@ -144,7 +147,7 @@ export const createCFNParameters = async (stack: Stack, options: {
             default: "t2.small"
         }
     )
-    const sshLocationIpv4 = new CfnParameter(
+    parameters.sshLocationIpv4 = new CfnParameter(
         stack,
         CFNParameterNames.EC2SSHLocationIPv4,
         {
@@ -170,7 +173,7 @@ export const createCFNParameters = async (stack: Stack, options: {
         }
     )
     */
-    const sshKeyPaierName = new CfnParameter(
+   parameters.sshKeyPaierName = new CfnParameter(
         stack,
         CFNParameterNames.EC2KeyPairName,
         {
@@ -184,20 +187,7 @@ export const createCFNParameters = async (stack: Stack, options: {
 
     // Interface
     createStackInterface(stack)
-    return {
-        domain,
-        cdnCookieWhiteLists,
-        cdnPriceClass,
-        certificationARN,
-        instanceTypes,
-        sshLocationIpv4,
-        //sshLocationIpv6,
-        sshKeyPaierName,
-        dbPassword,
-        dbUsername,
-        dbInstanceClass,
-        isMultiAZDatabase,
-    }
+    return parameters as Required<StackParameters>
 }
 
 export const createStackInterface = (stack: Stack):void => {

@@ -134,11 +134,11 @@ export const getSingleInstanceStacks = async () => {
     name: string;
     props: StackProps;
   }> = [{
-  //   name: 'JINKEISingle',
-  //   props: {
-  //     databaseType: 'no-rds'
-  //   }
-  // }, {
+     name: 'JINKEISingle',
+     props: {
+       databaseType: 'no-rds'
+     }
+   }, {
     name: 'JINKEISingleMaria',
     props: {
       databaseType: 'mariadb'

@@ -122,7 +122,7 @@ export default class EC2Resource {
                 default: {
                     files: {
                         '/opt/aws/cloud_formation.json': {
-                            content: JSON.stringify({
+                            content: JSON.stringify(dbInstanceEndpointAddress === 'localhost' ? {} : {
                                 rds: {
                                     database: "wordpress",
                                     username: this.params.dbUsername.valueAsString,
