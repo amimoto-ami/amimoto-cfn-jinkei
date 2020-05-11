@@ -11,7 +11,7 @@
     "test": "jest",
     "cdk": "cdk",
     "clean": "rimraf cdk.out/* lib/***/*.js lib/***/*.d.ts bin/*.js bin/*.d.ts",
-    "export": "rimraf dist/* && npm run build && ts-node ./bin/build.ts",
+    "export": "rimraf cloudformation/* && npm run build && ts-node ./bin/build.ts",
     "deploy-all": "npm run build && npm run cdk deploy \"*\" -f",
     "destroy-all": "npm run cdk destroy \"*\"",
     "synth": "npm run build && npm run cdk synth",

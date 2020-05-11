@@ -10,9 +10,8 @@ const exportTemplates = async () => {
     const stacks = await getSingleInstanceStacks()
     stacks.forEach(({name, stack}) => {
         const template = SynthUtils.toCloudFormation(stack)
-        console.log(template)
-        writeFileSync(`dist/${name}.yaml`, safeDump(template))
-        writeFileSync(`dist/${name}.json`, JSON.stringify(template, null, 2))
+        writeFileSync(`cloudformation/${name}.yaml`, safeDump(template))
+        writeFileSync(`cloudformation/${name}.json`, JSON.stringify(template, null, 2))
     })
 }
 
