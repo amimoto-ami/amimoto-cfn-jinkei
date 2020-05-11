@@ -15,7 +15,8 @@
     "deploy-all": "npm run build && npm run cdk deploy \"*\" -f",
     "destroy-all": "npm run cdk destroy \"*\"",
     "synth": "npm run build && npm run cdk synth",
-    "validate": "npm run synth > test.yml && aws cloudformation validate-template --template-body file://test.yml && rm -f test.yml"
+    "validate": "npm run synth > test.yml && aws cloudformation validate-template --template-body file://test.yml && rm -f test.yml",
+    "release-pkg": "./bin/pkg.sh"
   },
   "devDependencies": {
     "@aws-cdk/assert": "^1.35.0",
