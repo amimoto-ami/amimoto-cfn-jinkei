@@ -181,12 +181,14 @@ Mappings:
       ID: ami-00c98be6e9c1d66b2
     ap-southeast-1:
       ID: ami-04d181614a6517ef0
-    us-west-1:
-      ID: ami-0fc4ffa86af79d63c
-    us-east-2:
-      ID: ami-059b263c628bd4024
     ap-south-1:
       ID: ami-097dcad7138ccb536
+    us-west-1:
+      ID: ami-0fc4ffa86af79d63c
+    us-west-2:
+      ID: ami-0cea9f4f0c9b50387
+    us-east-2:
+      ID: ami-059b263c628bd4024
     ap-southeast-2:
       ID: ami-0e9565e36d146bdde
     eu-north-1:
@@ -195,18 +197,16 @@ Mappings:
       ID: ami-0926a670bad4c8b5f
     eu-west-3:
       ID: ami-0b14b8c57ecae29c3
-    us-west-2:
-      ID: ami-0cea9f4f0c9b50387
     eu-west-2:
       ID: ami-051fb6b81e63938e1
     eu-west-1:
       ID: ami-02b8792004857dbfd
     eu-central-1:
       ID: ami-0045f4bc81be2f366
-    us-east-1:
-      ID: ami-08ade0705b256fd98
     sa-east-1:
       ID: ami-0c05904702174ae1e
+    us-east-1:
+      ID: ami-08ade0705b256fd98
 Conditions:
   HasCDNCookieWhiteLists:
     'Fn::Not':
@@ -718,40 +718,32 @@ Resources:
                 #!/bin/bash
                 /opt/aws/bin/cfn-init --region 
               - Ref: 'AWS::Region'
-              - >2-
-                 --stack JINKEISingleAurora --resource amimotoEC2
+              - ' --stack '
+              - Ref: 'AWS::StackName'
+              - |2-
+                 --resource amimotoEC2
 
                 /opt/aws/bin/cfn-hup
 
-
                 ## AMIMOTO CFN Flags
-
                 tmp_json="mktemp"
-
                 amimoto_json='/opt/local/amimoto.json'
-
                 json='{"wordpress":{"jinkei_cf":"true"}}'
-
                 [ ! -e /opt/local ] && /bin/mkdir -p /opt/local
-
                 if [ -f $amimoto_json ]; then
                     hash jq || sudo /usr/bin/yum install -y jq
                     /usr/bin/jq -s '.[0] * .[1]' $amimoto_json <(echo $json) > $tmp_json
                 else
                     echo $json > $tmp_json
                 fi
-
                 [ -f $tmp_json ] && sudo /bin/mv -f $tmp_json $amimoto_json
 
-
                 ## Wait for WP Setup
+                until find /var/www/*/*/wp-config.php  ; do sleep 5 ; done
 
-                until find /var/www/vhosts -name wp-config.php  ; do sleep 5 ;
-                done
-
-
-                /opt/aws/bin/cfn-signal -e 0  --stack JINKEISingleAurora 
-                --resource amimotoEC2  --region 
+                /opt/aws/bin/cfn-signal -e 0  --stack 
+              - Ref: 'AWS::StackName'
+              - '  --resource amimotoEC2  --region '
               - Ref: 'AWS::Region'
     DependsOn:
       - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
@@ -795,7 +787,7 @@ Resources:
                     - Ref: DBUsername
                     - '","password":"'
                     - Ref: DBPassword
-                    - '","port":-1.8881545897088178e+289,"endpoint":"'
+                    - '","port":-1.888154589708818e+289,"endpoint":"'
                     - 'Fn::GetAtt':
                         - DatabaseCluster68FC2945
                         - Endpoint.Address

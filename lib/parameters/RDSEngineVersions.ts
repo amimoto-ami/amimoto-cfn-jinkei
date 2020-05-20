@@ -30,6 +30,7 @@ export class RDSEngineVersions {
     }
 }
 
+/**
 const test = async () => {
     const c = new RDSEngineVersions()
     const result = await c.listAll({
@@ -39,7 +40,6 @@ const test = async () => {
     console.log(result)
 }
 test()
-/**
  * [
   '5.7.12',
   '5.7.mysql_aurora.2.03.2',

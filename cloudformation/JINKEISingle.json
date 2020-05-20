@@ -167,17 +167,14 @@
       "ap-south-1": {
         "ID": "ami-097dcad7138ccb536"
       },
-      "eu-west-3": {
-        "ID": "ami-0b14b8c57ecae29c3"
-      },
       "eu-north-1": {
         "ID": "ami-44f0793a"
       },
       "ap-southeast-1": {
         "ID": "ami-04d181614a6517ef0"
       },
-      "us-east-2": {
-        "ID": "ami-059b263c628bd4024"
+      "eu-west-3": {
+        "ID": "ami-0b14b8c57ecae29c3"
       },
       "eu-west-2": {
         "ID": "ami-051fb6b81e63938e1"
@@ -185,11 +182,11 @@
       "ca-central-1": {
         "ID": "ami-0926a670bad4c8b5f"
       },
+      "us-east-2": {
+        "ID": "ami-059b263c628bd4024"
+      },
       "ap-southeast-2": {
         "ID": "ami-0e9565e36d146bdde"
-      },
-      "us-west-2": {
-        "ID": "ami-0cea9f4f0c9b50387"
       },
       "us-west-1": {
         "ID": "ami-0fc4ffa86af79d63c"
@@ -200,11 +197,14 @@
       "sa-east-1": {
         "ID": "ami-0c05904702174ae1e"
       },
-      "us-east-1": {
-        "ID": "ami-08ade0705b256fd98"
-      },
       "eu-central-1": {
         "ID": "ami-0045f4bc81be2f366"
+      },
+      "us-west-2": {
+        "ID": "ami-0cea9f4f0c9b50387"
+      },
+      "us-east-1": {
+        "ID": "ami-08ade0705b256fd98"
       }
     }
   },
@@ -840,7 +840,15 @@
                 {
                   "Ref": "AWS::Region"
                 },
-                " --stack JINKEISingle --resource amimotoEC2\n\n/opt/aws/bin/cfn-hup\n\n## AMIMOTO CFN Flags\ntmp_json=\"mktemp\"\namimoto_json='/opt/local/amimoto.json'\njson='{\"wordpress\":{\"jinkei_cf\":\"true\"}}'\n[ ! -e /opt/local ] && /bin/mkdir -p /opt/local\nif [ -f $amimoto_json ]; then\n    hash jq || sudo /usr/bin/yum install -y jq\n    /usr/bin/jq -s '.[0] * .[1]' $amimoto_json <(echo $json) > $tmp_json\nelse\n    echo $json > $tmp_json\nfi\n[ -f $tmp_json ] && sudo /bin/mv -f $tmp_json $amimoto_json\n\n## Wait for WP Setup\nuntil find /var/www/vhosts -name wp-config.php  ; do sleep 5 ; done\n\n/opt/aws/bin/cfn-signal -e 0  --stack JINKEISingle  --resource amimotoEC2  --region ",
+                " --stack ",
+                {
+                  "Ref": "AWS::StackName"
+                },
+                " --resource amimotoEC2\n\n/opt/aws/bin/cfn-hup\n\n## AMIMOTO CFN Flags\ntmp_json=\"mktemp\"\namimoto_json='/opt/local/amimoto.json'\njson='{\"wordpress\":{\"jinkei_cf\":\"true\"}}'\n[ ! -e /opt/local ] && /bin/mkdir -p /opt/local\nif [ -f $amimoto_json ]; then\n    hash jq || sudo /usr/bin/yum install -y jq\n    /usr/bin/jq -s '.[0] * .[1]' $amimoto_json <(echo $json) > $tmp_json\nelse\n    echo $json > $tmp_json\nfi\n[ -f $tmp_json ] && sudo /bin/mv -f $tmp_json $amimoto_json\n\n## Wait for WP Setup\nuntil find /var/www/*/*/wp-config.php  ; do sleep 5 ; done\n\n/opt/aws/bin/cfn-signal -e 0  --stack ",
+                {
+                  "Ref": "AWS::StackName"
+                },
+                "  --resource amimotoEC2  --region ",
                 {
                   "Ref": "AWS::Region"
                 }

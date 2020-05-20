@@ -35,9 +35,7 @@ export const createCFNConditions = (stack: Stack, cfnParameter: StackParameters)
             )
         }
     )
-    console.log({
-        r: cfnParameter.isMultiAZDatabase
-    })
+
     if (cfnParameter.isMultiAZDatabase) {
         new CfnCondition(
             stack,

@@ -1,4 +1,4 @@
-import { Stack, CfnOutput, Fn, Aws } from "@aws-cdk/core";
+import { Stack, CfnOutput, Fn, Aws, ScopedAws } from "@aws-cdk/core";
 import ec2 = require('@aws-cdk/aws-ec2')
 import { SecurityGroup, Vpc, CfnEIP, CfnEIPAssociation } from '@aws-cdk/aws-ec2';
 
@@ -6,6 +6,7 @@ import { StackParameters } from "../../parameters";
 import { DatabaseInstance } from "@aws-cdk/aws-rds";
 import { Role, CfnInstanceProfile } from "@aws-cdk/aws-iam";
 import { StackMapping, MappingNames } from "../../mappings";
+import { getStackName } from "../helper";
 
 export type EC2InstanceParams = {
     securityGroup: SecurityGroup;
@@ -71,6 +72,8 @@ export default class EC2Resource {
         new CfnOutput(this.stack, 'ServerIPAddress', { value: ec2Instance.attrPublicIp });
         ec2Instance.node.addDependency(vpc)
 
+        const stackName = getStackName(this.stack)
+
         /**
          * Userdata
          */
@@ -78,14 +81,14 @@ export default class EC2Resource {
         userData.addCommands([
             "/opt/aws/bin/cfn-init",
             `--region ${this.stack.region}`,
-            `--stack ${this.stack.stackName}`,
+            `--stack ${stackName}`,
             `--resource ${ec2Instance.logicalId}`
         ].join(' '))
         userData.addCommands(userDataScripts)
         // complete
         userData.addCommands([
             "/opt/aws/bin/cfn-signal -e 0",
-            ` --stack ${this.stack.stackName}`,
+            ` --stack ${stackName}`,
             ` --resource ${ec2Instance.logicalId}`,
             ` --region ${this.stack.region}`,
         ].join(' '))
@@ -184,5 +187,5 @@ fi
 [ -f $tmp_json ] && sudo /bin/mv -f $tmp_json $amimoto_json
 
 ## Wait for WP Setup
-until find /var/www/vhosts -name wp-config.php  ; do sleep 5 ; done
+until find /var/www/*/*/wp-config.php  ; do sleep 5 ; done
 `

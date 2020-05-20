@@ -3,6 +3,7 @@ import { StackParameters } from "../../parameters";
 import { DatabaseInstance, DatabaseInstanceEngine } from "@aws-cdk/aws-rds";
 import { InstanceClass, InstanceSize, InstanceType, SubnetType } from "@aws-cdk/aws-ec2";
 import { RDSDependedResources } from "./model";
+import { getStackName } from "../helper";
 
 
 export class MariaDB {
@@ -24,7 +25,7 @@ export class MariaDB {
                 vpcPlacement: vpc.selectSubnets({
                     subnetType: SubnetType.ISOLATED
                 }),
-                instanceIdentifier: [stack.stackName, 'Database'].join('-'),
+                instanceIdentifier: [getStackName(stack), 'Database'].join('-'),
                 databaseName: 'wordpress',
                 securityGroups: [
                     sgForDB

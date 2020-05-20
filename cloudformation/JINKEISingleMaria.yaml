@@ -211,24 +211,24 @@ Mappings:
       ID: ami-0b14b8c57ecae29c3
     eu-west-2:
       ID: ami-051fb6b81e63938e1
+    ap-southeast-2:
+      ID: ami-0e9565e36d146bdde
     ca-central-1:
       ID: ami-0926a670bad4c8b5f
     us-east-2:
       ID: ami-059b263c628bd4024
-    ap-southeast-2:
-      ID: ami-0e9565e36d146bdde
-    us-west-1:
-      ID: ami-0fc4ffa86af79d63c
-    us-west-2:
-      ID: ami-0cea9f4f0c9b50387
     us-east-1:
       ID: ami-08ade0705b256fd98
-    eu-central-1:
-      ID: ami-0045f4bc81be2f366
+    us-west-1:
+      ID: ami-0fc4ffa86af79d63c
     eu-west-1:
       ID: ami-02b8792004857dbfd
+    us-west-2:
+      ID: ami-0cea9f4f0c9b50387
     sa-east-1:
       ID: ami-0c05904702174ae1e
+    eu-central-1:
+      ID: ami-0045f4bc81be2f366
 Conditions:
   HasCDNCookieWhiteLists:
     'Fn::Not':
@@ -603,7 +603,11 @@ Resources:
             - Ref: DBInstanceClass
       AllocatedStorage: '100'
       CopyTagsToSnapshot: true
-      DBInstanceIdentifier: JINKEISingleMaria-Database
+      DBInstanceIdentifier:
+        'Fn::Join':
+          - ''
+          - - Ref: 'AWS::StackName'
+            - '-Database'
       DBName: wordpress
       DBSubnetGroupName:
         Ref: DatabaseSubnetGroup7D60F180
@@ -684,40 +688,32 @@ Resources:
                 #!/bin/bash
                 /opt/aws/bin/cfn-init --region 
               - Ref: 'AWS::Region'
-              - >2-
-                 --stack JINKEISingleMaria --resource amimotoEC2
+              - ' --stack '
+              - Ref: 'AWS::StackName'
+              - |2-
+                 --resource amimotoEC2
 
                 /opt/aws/bin/cfn-hup
 
-
                 ## AMIMOTO CFN Flags
-
                 tmp_json="mktemp"
-
                 amimoto_json='/opt/local/amimoto.json'
-
                 json='{"wordpress":{"jinkei_cf":"true"}}'
-
                 [ ! -e /opt/local ] && /bin/mkdir -p /opt/local
-
                 if [ -f $amimoto_json ]; then
                     hash jq || sudo /usr/bin/yum install -y jq
                     /usr/bin/jq -s '.[0] * .[1]' $amimoto_json <(echo $json) > $tmp_json
                 else
                     echo $json > $tmp_json
                 fi
-
                 [ -f $tmp_json ] && sudo /bin/mv -f $tmp_json $amimoto_json
 
-
                 ## Wait for WP Setup
+                until find /var/www/*/*/wp-config.php  ; do sleep 5 ; done
 
-                until find /var/www/vhosts -name wp-config.php  ; do sleep 5 ;
-                done
-
-
-                /opt/aws/bin/cfn-signal -e 0  --stack JINKEISingleMaria 
-                --resource amimotoEC2  --region 
+                /opt/aws/bin/cfn-signal -e 0  --stack 
+              - Ref: 'AWS::StackName'
+              - '  --resource amimotoEC2  --region '
               - Ref: 'AWS::Region'
     DependsOn:
       - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
