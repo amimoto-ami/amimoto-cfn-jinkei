@@ -222,14 +222,11 @@
       "us-west-1": {
         "ID": "ami-0fc4ffa86af79d63c"
       },
-      "us-west-2": {
-        "ID": "ami-0cea9f4f0c9b50387"
+      "ap-southeast-2": {
+        "ID": "ami-0e9565e36d146bdde"
       },
       "us-east-2": {
         "ID": "ami-059b263c628bd4024"
-      },
-      "ap-southeast-2": {
-        "ID": "ami-0e9565e36d146bdde"
       },
       "eu-north-1": {
         "ID": "ami-44f0793a"
@@ -237,20 +234,23 @@
       "ca-central-1": {
         "ID": "ami-0926a670bad4c8b5f"
       },
+      "us-west-2": {
+        "ID": "ami-0cea9f4f0c9b50387"
+      },
       "eu-west-3": {
         "ID": "ami-0b14b8c57ecae29c3"
       },
       "eu-west-2": {
         "ID": "ami-051fb6b81e63938e1"
       },
-      "eu-west-1": {
-        "ID": "ami-02b8792004857dbfd"
-      },
       "eu-central-1": {
         "ID": "ami-0045f4bc81be2f366"
       },
       "sa-east-1": {
         "ID": "ami-0c05904702174ae1e"
+      },
+      "eu-west-1": {
+        "ID": "ami-02b8792004857dbfd"
       },
       "us-east-1": {
         "ID": "ami-08ade0705b256fd98"
@@ -1281,7 +1281,9 @@
                   "Ref": "SiteDomain"
                 }
               ],
-              []
+              {
+                "Ref": "AWS::NoValue"
+              }
             ]
           },
           "CacheBehaviors": [
@@ -1689,15 +1691,14 @@
             "Fn::If": [
               "HasACMCertificationARN",
               {
-                "CloudFrontDefaultCertificate": false,
                 "AcmCertificateArn": {
                   "Ref": "CDNCertificationARN"
                 },
-                "MinimumProtocolVersion": "https-only",
+                "MinimumProtocolVersion": "TLSv1.2_2018",
                 "SslSupportMethod": "sni-only"
               },
               {
-                "CloudFrontDefaultCertificate": true
+                "Ref": "AWS::NoValue"
               }
             ]
           }

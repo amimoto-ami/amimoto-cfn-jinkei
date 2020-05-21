@@ -1,10 +1,11 @@
-import { Stack, Fn, CfnOutput } from "@aws-cdk/core";
+import { Stack, Fn, CfnOutput, Reference, Aws } from "@aws-cdk/core";
 import {
     HttpVersion,
     ViewerProtocolPolicy,
     OriginProtocolPolicy,
     CfnDistribution,
     SSLMethod,
+    SecurityPolicyProtocol,
 } from "@aws-cdk/aws-cloudfront";
 import {
     Duration
@@ -46,9 +47,8 @@ export default class CloudFrontResource {
                 aliases: Fn.conditionIf(
                     CFNConditionNames.HasACMCertificationARN,
                     [domain.valueAsString],
-                    []
+                    Aws.NO_VALUE
                 ) as any as string[],
-                //aliases: [domain.valueAsString],
                 cacheBehaviors: [{
                     compress: true,
                     allowedMethods: allowedMethods.GET_HEAD,
@@ -331,14 +331,11 @@ export default class CloudFrontResource {
                 viewerCertificate: Fn.conditionIf(
                     CFNConditionNames.HasACMCertificationARN,
                     {
-                        CloudFrontDefaultCertificate: false,
                         AcmCertificateArn: certificationARN.valueAsString,
-                        MinimumProtocolVersion: ViewerProtocolPolicy.HTTPS_ONLY,
+                        MinimumProtocolVersion: SecurityPolicyProtocol.TLS_V1_2_2018,
                         SslSupportMethod: SSLMethod.SNI
                     },
-                    {
-                        CloudFrontDefaultCertificate: true
-                    }
+                    Aws.NO_VALUE
                 ),
             }
         })

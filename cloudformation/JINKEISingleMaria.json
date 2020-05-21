@@ -229,20 +229,35 @@
   },
   "Mappings": {
     "MPAmimotoAMIID": {
+      "ap-northeast-2": {
+        "ID": "ami-00c98be6e9c1d66b2"
+      },
       "ap-northeast-1": {
         "ID": "ami-035e5e162165febe0"
       },
-      "ap-northeast-2": {
-        "ID": "ami-00c98be6e9c1d66b2"
+      "ap-southeast-1": {
+        "ID": "ami-04d181614a6517ef0"
       },
       "ap-south-1": {
         "ID": "ami-097dcad7138ccb536"
       },
+      "us-west-1": {
+        "ID": "ami-0fc4ffa86af79d63c"
+      },
+      "ap-southeast-2": {
+        "ID": "ami-0e9565e36d146bdde"
+      },
       "eu-north-1": {
         "ID": "ami-44f0793a"
       },
-      "ap-southeast-1": {
-        "ID": "ami-04d181614a6517ef0"
+      "us-west-2": {
+        "ID": "ami-0cea9f4f0c9b50387"
+      },
+      "us-east-2": {
+        "ID": "ami-059b263c628bd4024"
+      },
+      "ca-central-1": {
+        "ID": "ami-0926a670bad4c8b5f"
       },
       "eu-west-3": {
         "ID": "ami-0b14b8c57ecae29c3"
@@ -250,32 +265,17 @@
       "eu-west-2": {
         "ID": "ami-051fb6b81e63938e1"
       },
-      "ap-southeast-2": {
-        "ID": "ami-0e9565e36d146bdde"
-      },
-      "ca-central-1": {
-        "ID": "ami-0926a670bad4c8b5f"
-      },
-      "us-east-2": {
-        "ID": "ami-059b263c628bd4024"
+      "eu-west-1": {
+        "ID": "ami-02b8792004857dbfd"
       },
       "us-east-1": {
         "ID": "ami-08ade0705b256fd98"
       },
-      "us-west-1": {
-        "ID": "ami-0fc4ffa86af79d63c"
-      },
-      "eu-west-1": {
-        "ID": "ami-02b8792004857dbfd"
-      },
-      "us-west-2": {
-        "ID": "ami-0cea9f4f0c9b50387"
+      "eu-central-1": {
+        "ID": "ami-0045f4bc81be2f366"
       },
       "sa-east-1": {
         "ID": "ami-0c05904702174ae1e"
-      },
-      "eu-central-1": {
-        "ID": "ami-0045f4bc81be2f366"
       }
     }
   },
@@ -1255,7 +1255,9 @@
                   "Ref": "SiteDomain"
                 }
               ],
-              []
+              {
+                "Ref": "AWS::NoValue"
+              }
             ]
           },
           "CacheBehaviors": [
@@ -1663,15 +1665,14 @@
             "Fn::If": [
               "HasACMCertificationARN",
               {
-                "CloudFrontDefaultCertificate": false,
                 "AcmCertificateArn": {
                   "Ref": "CDNCertificationARN"
                 },
-                "MinimumProtocolVersion": "https-only",
+                "MinimumProtocolVersion": "TLSv1.2_2018",
                 "SslSupportMethod": "sni-only"
               },
               {
-                "CloudFrontDefaultCertificate": true
+                "Ref": "AWS::NoValue"
               }
             ]
           }
