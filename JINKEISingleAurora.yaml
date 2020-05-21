@@ -1,0 +1,1206 @@
+Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+      - Label:
+          default: Databse COnfiguration
+        Parameters:
+          - DBInstanceClass
+          - DBUsername
+          - DBPassword
+          - DBMultiAz
+      - Label:
+          default: CDN Configuration
+        Parameters:
+          - CDNCookieWhiteLists
+          - CDNPriceClass
+          - CDNCertificationARN
+          - SiteDomain
+      - Label:
+          default: EC2 Configuration
+        Parameters:
+          - EC2InstanceType
+          - EC2SSHLocationIP
+          - EC2KeyPairName
+Parameters:
+  DBUsername:
+    Type: String
+    Default: admin
+    Description: Database username
+  DBPassword:
+    Type: String
+    Default: 'amimotoAMI#123'
+    Description: Database password
+  DBMultiAz:
+    Type: String
+    Default: 'true'
+    AllowedValues:
+      - 'true'
+      - 'false'
+    Description: Create a Multi-AZ RDS Database Instance
+  DBInstanceClass:
+    Type: String
+    Default: t3.medium
+    AllowedValues:
+      - r3.2xlarge
+      - r3.4xlarge
+      - r3.8xlarge
+      - r3.large
+      - r3.xlarge
+      - r4.16xlarge
+      - r4.2xlarge
+      - r4.4xlarge
+      - r4.8xlarge
+      - r4.large
+      - r4.xlarge
+      - r5.12xlarge
+      - r5.16xlarge
+      - r5.24xlarge
+      - r5.2xlarge
+      - r5.4xlarge
+      - r5.8xlarge
+      - r5.large
+      - r5.xlarge
+      - t2.medium
+      - t2.small
+      - t3.medium
+      - t3.small
+    Description: Instance type.
+  CDNCookieWhiteLists:
+    Type: CommaDelimitedList
+    Default: ''
+    Description: Allowed CloudFront cookie whitelists
+  CDNPriceClass:
+    Type: String
+    Default: PriceClass_All
+    AllowedValues:
+      - PriceClass_100
+      - PriceClass_200
+      - PriceClass_All
+    Description: CDN Price class.
+  CDNCertificationARN:
+    Type: String
+    Default: ''
+    Description: SSL Certification ARN from Amazon Certificate Manager
+  SiteDomain:
+    Type: String
+    Default: ''
+    Description: The website domain
+  EC2InstanceType:
+    Type: String
+    Default: t2.small
+    AllowedValues:
+      - c3.2xlarge
+      - c3.4xlarge
+      - c3.8xlarge
+      - c3.large
+      - c3.xlarge
+      - c4.2xlarge
+      - c4.4xlarge
+      - c4.8xlarge
+      - c4.large
+      - c4.xlarge
+      - c5.12xlarge
+      - c5.18xlarge
+      - c5.24xlarge
+      - c5.2xlarge
+      - c5.4xlarge
+      - c5.9xlarge
+      - c5.large
+      - c5.metal
+      - c5.xlarge
+      - m3.2xlarge
+      - m3.large
+      - m3.medium
+      - m3.xlarge
+      - m4.10xlarge
+      - m4.16xlarge
+      - m4.2xlarge
+      - m4.4xlarge
+      - m4.large
+      - m4.xlarge
+      - m5.12xlarge
+      - m5.16xlarge
+      - m5.24xlarge
+      - m5.2xlarge
+      - m5.4xlarge
+      - m5.8xlarge
+      - m5.large
+      - m5.metal
+      - m5.xlarge
+      - r3.2xlarge
+      - r3.4xlarge
+      - r3.8xlarge
+      - r3.large
+      - r3.xlarge
+      - r4.16xlarge
+      - r4.2xlarge
+      - r4.4xlarge
+      - r4.8xlarge
+      - r4.large
+      - r4.xlarge
+      - r5.12xlarge
+      - r5.16xlarge
+      - r5.24xlarge
+      - r5.2xlarge
+      - r5.4xlarge
+      - r5.8xlarge
+      - r5.large
+      - r5.metal
+      - r5.xlarge
+      - t2.2xlarge
+      - t2.large
+      - t2.medium
+      - t2.micro
+      - t2.small
+      - t2.xlarge
+      - t3.2xlarge
+      - t3.large
+      - t3.medium
+      - t3.micro
+      - t3.small
+      - t3.xlarge
+    Description: Instance type.
+  EC2SSHLocationIP:
+    Type: String
+    Default: 0.0.0.0/0
+    ConstraintDescription: Must be a valid IP CIDR range of the form x.x.x.x/x.
+    Description: The IP address range that can be used to SSH to the EC2 instances (IPv4)
+    MaxLength: 18
+    MinLength: 9
+  EC2KeyPairName:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+    Default: amimoto-dev
+    ConstraintDescription: Must be the name of an existing EC2 KeyPair.
+    Description: Name of an existing EC2 key pair to enable SSH access to the instances
+    MinLength: 1
+Mappings:
+  MPAmimotoAMIID:
+    ap-northeast-1:
+      ID: ami-035e5e162165febe0
+    ap-northeast-2:
+      ID: ami-00c98be6e9c1d66b2
+    ap-southeast-1:
+      ID: ami-04d181614a6517ef0
+    ap-south-1:
+      ID: ami-097dcad7138ccb536
+    us-west-1:
+      ID: ami-0fc4ffa86af79d63c
+    ap-southeast-2:
+      ID: ami-0e9565e36d146bdde
+    us-east-2:
+      ID: ami-059b263c628bd4024
+    eu-north-1:
+      ID: ami-44f0793a
+    ca-central-1:
+      ID: ami-0926a670bad4c8b5f
+    us-west-2:
+      ID: ami-0cea9f4f0c9b50387
+    eu-west-3:
+      ID: ami-0b14b8c57ecae29c3
+    eu-west-2:
+      ID: ami-051fb6b81e63938e1
+    eu-central-1:
+      ID: ami-0045f4bc81be2f366
+    sa-east-1:
+      ID: ami-0c05904702174ae1e
+    eu-west-1:
+      ID: ami-02b8792004857dbfd
+    us-east-1:
+      ID: ami-08ade0705b256fd98
+Conditions:
+  HasCDNCookieWhiteLists:
+    'Fn::Not':
+      - 'Fn::Equals':
+          - 'Fn::Join':
+              - ''
+              - Ref: CDNCookieWhiteLists
+          - ''
+  HasACMCertificationARN:
+    'Fn::Not':
+      - 'Fn::Equals':
+          - Ref: CDNCertificationARN
+          - ''
+  IsMultiAZDatabase:
+    'Fn::Equals':
+      - Ref: DBMultiAz
+      - 'true'
+Resources:
+  AMIMOTOVPC2FEB3257:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC
+  AMIMOTOVPCForEC2Subnet1Subnet39FF3515:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      CidrBlock: 10.0.0.0/18
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+      AvailabilityZone:
+        'Fn::Select':
+          - 0
+          - 'Fn::GetAZs': ''
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC/For EC2Subnet1
+        - Key: 'aws-cdk:subnet-name'
+          Value: For EC2
+        - Key: 'aws-cdk:subnet-type'
+          Value: Public
+  AMIMOTOVPCForEC2Subnet1RouteTableDD359F04:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC/For EC2Subnet1
+  AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      RouteTableId:
+        Ref: AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
+      SubnetId:
+        Ref: AMIMOTOVPCForEC2Subnet1Subnet39FF3515
+  AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      RouteTableId:
+        Ref: AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: AMIMOTOVPCIGWB41F301F
+    DependsOn:
+      - AMIMOTOVPCVPCGW1E90E832
+  AMIMOTOVPCForEC2Subnet2Subnet51A2110D:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      CidrBlock: 10.0.64.0/18
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+      AvailabilityZone:
+        'Fn::Select':
+          - 1
+          - 'Fn::GetAZs': ''
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC/For EC2Subnet2
+        - Key: 'aws-cdk:subnet-name'
+          Value: For EC2
+        - Key: 'aws-cdk:subnet-type'
+          Value: Public
+  AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC/For EC2Subnet2
+  AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      RouteTableId:
+        Ref: AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
+      SubnetId:
+        Ref: AMIMOTOVPCForEC2Subnet2Subnet51A2110D
+  AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      RouteTableId:
+        Ref: AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: AMIMOTOVPCIGWB41F301F
+    DependsOn:
+      - AMIMOTOVPCVPCGW1E90E832
+  AMIMOTOVPCForDBSubnet1Subnet15AA28A7:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      CidrBlock: 10.0.128.0/18
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+      AvailabilityZone:
+        'Fn::Select':
+          - 0
+          - 'Fn::GetAZs': ''
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC/For DBSubnet1
+        - Key: 'aws-cdk:subnet-name'
+          Value: For DB
+        - Key: 'aws-cdk:subnet-type'
+          Value: Isolated
+  AMIMOTOVPCForDBSubnet1RouteTable94EB63C7:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC/For DBSubnet1
+  AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      RouteTableId:
+        Ref: AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
+      SubnetId:
+        Ref: AMIMOTOVPCForDBSubnet1Subnet15AA28A7
+  AMIMOTOVPCForDBSubnet2SubnetFF04A2AE:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      CidrBlock: 10.0.192.0/18
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+      AvailabilityZone:
+        'Fn::Select':
+          - 1
+          - 'Fn::GetAZs': ''
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC/For DBSubnet2
+        - Key: 'aws-cdk:subnet-name'
+          Value: For DB
+        - Key: 'aws-cdk:subnet-type'
+          Value: Isolated
+  AMIMOTOVPCForDBSubnet2RouteTable425BD6A3:
+    Type: 'AWS::EC2::RouteTable'
+    Properties:
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC/For DBSubnet2
+  AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28:
+    Type: 'AWS::EC2::SubnetRouteTableAssociation'
+    Properties:
+      RouteTableId:
+        Ref: AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
+      SubnetId:
+        Ref: AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
+  AMIMOTOVPCIGWB41F301F:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+        - Key: Name
+          Value: JINKEISingleAurora/AMIMOTO-VPC
+  AMIMOTOVPCVPCGW1E90E832:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+      InternetGatewayId:
+        Ref: AMIMOTOVPCIGWB41F301F
+  SecurityGroupForInstance9EE06232:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: JINKEISingleAurora/SecurityGroupForInstance
+      GroupName: For EC2
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: '-1'
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: 'from 0.0.0.0/0:80'
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIpv6: '::/0'
+          Description: 'from ::/0:80'
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIp:
+            Ref: EC2SSHLocationIP
+          Description:
+            'Fn::Join':
+              - ''
+              - - 'from '
+                - Ref: EC2SSHLocationIP
+                - ':22'
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+  SecurityGroupForDatabaseE9719927:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: JINKEISingleAurora/SecurityGroupForDatabase
+      GroupName: For Database
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: '-1'
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+  SecurityGroupForDatabasefromJINKEISingleAuroraSecurityGroupForInstance0AECEB773306F7325839:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      IpProtocol: tcp
+      Description: EC2 Allow access to RDS
+      FromPort: 3306
+      GroupId:
+        'Fn::GetAtt':
+          - SecurityGroupForDatabaseE9719927
+          - GroupId
+      SourceSecurityGroupId:
+        'Fn::GetAtt':
+          - SecurityGroupForInstance9EE06232
+          - GroupId
+      ToPort: 3306
+  SecurityGroupForLoadBalancer41D4B6A5:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: JINKEISingleAurora/SecurityGroupForLoadBalancer
+      GroupName: For LoadBalancer
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: '-1'
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: 'from 0.0.0.0/0:80'
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+        - CidrIpv6: '::/0'
+          Description: 'from ::/0:80'
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+  IAMPolicyForCloudFrontC87F906D:
+    Type: 'AWS::IAM::ManagedPolicy'
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - 'cloudfront:*Invalidation*'
+              - 'cloudfront:*getDistribution*'
+            Effect: Allow
+            Resource: '*'
+        Version: '2012-10-17'
+      Description: To access CloudFront from AMIMOTO WordPress
+      Path: /
+  IAMInstanceRoleE590FE32:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: 'sts:AssumeRole'
+            Effect: Allow
+            Principal:
+              Service:
+                'Fn::Join':
+                  - ''
+                  - - ec2.
+                    - Ref: 'AWS::URLSuffix'
+        Version: '2012-10-17'
+      ManagedPolicyArns:
+        - Ref: IAMPolicyForCloudFrontC87F906D
+      Path: /
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+  DatabaseClusterSubnets7FAE1846:
+    Type: 'AWS::RDS::DBSubnetGroup'
+    Properties:
+      DBSubnetGroupDescription: Subnets for DatabaseCluster database
+      SubnetIds:
+        - Ref: AMIMOTOVPCForDBSubnet1Subnet15AA28A7
+        - Ref: AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+    DependsOn:
+      - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
+      - AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382
+      - AMIMOTOVPCForDBSubnet1Subnet15AA28A7
+      - AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
+      - AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28
+      - AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
+      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
+      - AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
+      - AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E
+      - AMIMOTOVPCForEC2Subnet1Subnet39FF3515
+      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
+      - AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
+      - AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873
+      - AMIMOTOVPCForEC2Subnet2Subnet51A2110D
+      - AMIMOTOVPCIGWB41F301F
+      - AMIMOTOVPC2FEB3257
+      - AMIMOTOVPCVPCGW1E90E832
+  DatabaseCluster68FC2945:
+    Type: 'AWS::RDS::DBCluster'
+    Properties:
+      Engine: aurora-mysql
+      DatabaseName: wordpress
+      DBClusterParameterGroupName: default.aurora-mysql5.7
+      DBSubnetGroupName:
+        Ref: DatabaseClusterSubnets7FAE1846
+      EngineVersion: 5.7.12
+      MasterUsername:
+        Ref: DBUsername
+      MasterUserPassword:
+        Ref: DBPassword
+      Port: 3306
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+      VpcSecurityGroupIds:
+        - 'Fn::GetAtt':
+            - SecurityGroupForDatabaseE9719927
+            - GroupId
+    DependsOn:
+      - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
+      - AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382
+      - AMIMOTOVPCForDBSubnet1Subnet15AA28A7
+      - AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
+      - AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28
+      - AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
+      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
+      - AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
+      - AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E
+      - AMIMOTOVPCForEC2Subnet1Subnet39FF3515
+      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
+      - AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
+      - AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873
+      - AMIMOTOVPCForEC2Subnet2Subnet51A2110D
+      - AMIMOTOVPCIGWB41F301F
+      - AMIMOTOVPC2FEB3257
+      - AMIMOTOVPCVPCGW1E90E832
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+  DatabaseClusterInstance1C566869D:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBInstanceClass: db.t2.small
+      DBClusterIdentifier:
+        Ref: DatabaseCluster68FC2945
+      DBSubnetGroupName:
+        Ref: DatabaseClusterSubnets7FAE1846
+      Engine: aurora-mysql
+      EngineVersion: 5.7.12
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+    DependsOn:
+      - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
+      - AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382
+      - AMIMOTOVPCForDBSubnet1Subnet15AA28A7
+      - AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
+      - AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28
+      - AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
+      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
+      - AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
+      - AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E
+      - AMIMOTOVPCForEC2Subnet1Subnet39FF3515
+      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
+      - AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
+      - AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873
+      - AMIMOTOVPCForEC2Subnet2Subnet51A2110D
+      - AMIMOTOVPCIGWB41F301F
+      - AMIMOTOVPC2FEB3257
+      - AMIMOTOVPCVPCGW1E90E832
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+  DatabaseClusterInstance252BB9A46:
+    Type: 'AWS::RDS::DBInstance'
+    Properties:
+      DBInstanceClass: db.t2.small
+      DBClusterIdentifier:
+        Ref: DatabaseCluster68FC2945
+      DBSubnetGroupName:
+        Ref: DatabaseClusterSubnets7FAE1846
+      Engine: aurora-mysql
+      EngineVersion: 5.7.12
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+    DependsOn:
+      - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
+      - AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382
+      - AMIMOTOVPCForDBSubnet1Subnet15AA28A7
+      - AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
+      - AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28
+      - AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
+      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
+      - AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
+      - AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E
+      - AMIMOTOVPCForEC2Subnet1Subnet39FF3515
+      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
+      - AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
+      - AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873
+      - AMIMOTOVPCForEC2Subnet2Subnet51A2110D
+      - AMIMOTOVPCIGWB41F301F
+      - AMIMOTOVPC2FEB3257
+      - AMIMOTOVPCVPCGW1E90E832
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+  InstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Roles:
+        - Ref: IAMInstanceRoleE590FE32
+      Path: /
+  amimotoEC2:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      IamInstanceProfile:
+        Ref: InstanceProfile
+      ImageId:
+        'Fn::FindInMap':
+          - MPAmimotoAMIID
+          - Ref: 'AWS::Region'
+          - ID
+      InstanceType:
+        Ref: EC2InstanceType
+      KeyName:
+        Ref: EC2KeyPairName
+      NetworkInterfaces:
+        - AssociatePublicIpAddress: true
+          DeviceIndex: '0'
+          GroupSet:
+            - 'Fn::GetAtt':
+                - SecurityGroupForInstance9EE06232
+                - GroupId
+          SubnetId:
+            Ref: AMIMOTOVPCForEC2Subnet1Subnet39FF3515
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+      UserData:
+        'Fn::Base64':
+          'Fn::Join':
+            - ''
+            - - |-
+                #!/bin/bash
+                /opt/aws/bin/cfn-init --region 
+              - Ref: 'AWS::Region'
+              - ' --stack '
+              - Ref: 'AWS::StackName'
+              - |2-
+                 --resource amimotoEC2
+
+                /opt/aws/bin/cfn-hup
+
+                ## AMIMOTO CFN Flags
+                tmp_json="mktemp"
+                amimoto_json='/opt/local/amimoto.json'
+                json='{"wordpress":{"jinkei_cf":"true"}}'
+                [ ! -e /opt/local ] && /bin/mkdir -p /opt/local
+                if [ -f $amimoto_json ]; then
+                    hash jq || sudo /usr/bin/yum install -y jq
+                    /usr/bin/jq -s '.[0] * .[1]' $amimoto_json <(echo $json) > $tmp_json
+                else
+                    echo $json > $tmp_json
+                fi
+                [ -f $tmp_json ] && sudo /bin/mv -f $tmp_json $amimoto_json
+
+                ## Wait for WP Setup
+                until find /var/www/*/*/wp-config.php  ; do sleep 5 ; done
+
+                /opt/aws/bin/cfn-signal -e 0  --stack 
+              - Ref: 'AWS::StackName'
+              - '  --resource amimotoEC2  --region '
+              - Ref: 'AWS::Region'
+    DependsOn:
+      - AMIMOTOVPCForDBSubnet1RouteTable94EB63C7
+      - AMIMOTOVPCForDBSubnet1RouteTableAssociationC4D43382
+      - AMIMOTOVPCForDBSubnet1Subnet15AA28A7
+      - AMIMOTOVPCForDBSubnet2RouteTable425BD6A3
+      - AMIMOTOVPCForDBSubnet2RouteTableAssociation93ADCA28
+      - AMIMOTOVPCForDBSubnet2SubnetFF04A2AE
+      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
+      - AMIMOTOVPCForEC2Subnet1RouteTableDD359F04
+      - AMIMOTOVPCForEC2Subnet1RouteTableAssociation064C1C4E
+      - AMIMOTOVPCForEC2Subnet1Subnet39FF3515
+      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
+      - AMIMOTOVPCForEC2Subnet2RouteTable7F348A1E
+      - AMIMOTOVPCForEC2Subnet2RouteTableAssociation97B06873
+      - AMIMOTOVPCForEC2Subnet2Subnet51A2110D
+      - AMIMOTOVPCIGWB41F301F
+      - AMIMOTOVPC2FEB3257
+      - AMIMOTOVPCVPCGW1E90E832
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT30M
+    Metadata:
+      'AWS::CloudFormation::Init':
+        configSets:
+          provision:
+            - 'do:provision'
+          default:
+            - default
+        'do:provision':
+          commands:
+            'do:provision':
+              command: /opt/local/provision
+        default:
+          files:
+            /opt/aws/cloud_formation.json:
+              content:
+                'Fn::Join':
+                  - ''
+                  - - '{"rds":{"database":"wordpress","username":"'
+                    - Ref: DBUsername
+                    - '","password":"'
+                    - Ref: DBPassword
+                    - '","port":-1.888154589708818e+289,"endpoint":"'
+                    - 'Fn::GetAtt':
+                        - DatabaseCluster68FC2945
+                        - Endpoint.Address
+                    - '"}}'
+              mode: '00644'
+              owner: root
+              group: root
+            /etc/cfn/cfn-hup.conf:
+              content: '[main]stack={{stackArn}}region={{region}}'
+              context:
+                stackArn:
+                  Ref: 'AWS::StackId'
+                region:
+                  Ref: 'AWS::Region'
+              mode: '000400'
+              owner: root
+              group: root
+            /etc/cfn/hooks.d/cfn-auto-reloader.conf:
+              content: >-
+                [cfn-auto-reloader-hook]
+
+                triggers=post.update
+
+                path=Resources.{{resources}}.Metadata.AWS::CloudFormation::Init
+
+                action=/opt/aws/bin/cfn-init -s {{stackArn}} -r {{resources}}
+                --region {{region}}  --configsets provision
+
+                runas=root
+              context:
+                stackArn:
+                  Ref: 'AWS::StackId'
+                region:
+                  Ref: 'AWS::Region'
+                resources: amimotoEC2
+  ALBForWPEB7458E6:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      Scheme: internet-facing
+      SecurityGroups:
+        - 'Fn::GetAtt':
+            - SecurityGroupForLoadBalancer41D4B6A5
+            - GroupId
+      Subnets:
+        - Ref: AMIMOTOVPCForEC2Subnet1Subnet39FF3515
+        - Ref: AMIMOTOVPCForEC2Subnet2Subnet51A2110D
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+      Type: application
+    DependsOn:
+      - AMIMOTOVPCForEC2Subnet1DefaultRouteD181E732
+      - AMIMOTOVPCForEC2Subnet2DefaultRoute10E7C8C3
+  ALBForWPHTTPLisner4DE72305:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:
+        - TargetGroupArn:
+            Ref: ALBForWPHTTPLisnerHTTPTargetGroup2167176E
+          Type: forward
+      LoadBalancerArn:
+        Ref: ALBForWPEB7458E6
+      Port: 80
+      Protocol: HTTP
+  ALBForWPHTTPLisnerHTTPTargetGroup2167176E:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: /wp-login.php
+      HealthCheckTimeoutSeconds: 5
+      Port: 80
+      Protocol: HTTP
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+      Targets:
+        - Id:
+            Ref: amimotoEC2
+      TargetType: instance
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+  CloudFront:
+    Type: 'AWS::CloudFront::Distribution'
+    Properties:
+      DistributionConfig:
+        Aliases:
+          'Fn::If':
+            - HasACMCertificationARN
+            - - Ref: SiteDomain
+            - Ref: 'AWS::NoValue'
+        CacheBehaviors:
+          - AllowedMethods:
+              - GET
+              - HEAD
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            DefaultTTL: 3600
+            ForwardedValues:
+              Cookies:
+                'Fn::If':
+                  - HasCDNCookieWhiteLists
+                  - Forward: whitelist
+                    WhitelistedNames:
+                      Ref: CDNCookieWhiteLists
+                  - Forward: all
+              Headers:
+                - Accept
+                - Authorization
+                - CloudFront-Forwarded-Proto
+                - Host
+                - Origin
+                - Referer
+              QueryString: true
+            MaxTTL: 86400
+            MinTTL: 3600
+            PathPattern: wp-admin/load-*.php
+            TargetOriginId: WordPress
+            ViewerProtocolPolicy: redirect-to-https
+          - AllowedMethods:
+              - DELETE
+              - GET
+              - HEAD
+              - OPTIONS
+              - PATCH
+              - POST
+              - PUT
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            DefaultTTL: 60
+            ForwardedValues:
+              Cookies:
+                'Fn::If':
+                  - HasCDNCookieWhiteLists
+                  - Forward: whitelist
+                    WhitelistedNames:
+                      Ref: CDNCookieWhiteLists
+                  - Forward: all
+              Headers:
+                - Accept
+                - Authorization
+                - CloudFront-Forwarded-Proto
+                - Host
+                - Origin
+                - Referer
+              QueryString: true
+            MaxTTL: 60
+            MinTTL: 30
+            PathPattern: wp-admin/admin-ajax.php
+            TargetOriginId: WordPress
+            ViewerProtocolPolicy: redirect-to-https
+          - AllowedMethods:
+              - DELETE
+              - GET
+              - HEAD
+              - OPTIONS
+              - PATCH
+              - POST
+              - PUT
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            DefaultTTL: 3600
+            ForwardedValues:
+              Cookies:
+                Forward: all
+              Headers:
+                - Accept
+                - Authorization
+                - CloudFront-Forwarded-Proto
+                - Host
+                - Origin
+                - Referer
+                - User-Agent
+              QueryString: true
+            MaxTTL: 86400
+            MinTTL: 0
+            PathPattern: '*.php'
+            TargetOriginId: WordPress
+            ViewerProtocolPolicy: redirect-to-https
+          - AllowedMethods:
+              - DELETE
+              - GET
+              - HEAD
+              - OPTIONS
+              - PATCH
+              - POST
+              - PUT
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            DefaultTTL: 3600
+            ForwardedValues:
+              Cookies:
+                'Fn::If':
+                  - HasCDNCookieWhiteLists
+                  - Forward: whitelist
+                    WhitelistedNames:
+                      Ref: CDNCookieWhiteLists
+                  - Forward: all
+              Headers:
+                - Accept
+                - Authorization
+                - CloudFront-Forwarded-Proto
+                - Host
+                - Origin
+                - Referer
+                - User-Agent
+              QueryString: true
+            MaxTTL: 86400
+            MinTTL: 0
+            PathPattern: wp-admin/*
+            TargetOriginId: WordPress
+            ViewerProtocolPolicy: redirect-to-https
+          - AllowedMethods:
+              - GET
+              - HEAD
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            DefaultTTL: 86400
+            ForwardedValues:
+              Cookies:
+                Forward: none
+              Headers:
+                - Accept
+                - Authorization
+                - CloudFront-Forwarded-Proto
+                - Host
+                - Origin
+              QueryString: true
+            MaxTTL: 86400
+            MinTTL: 43200
+            PathPattern: wp-includes/*
+            TargetOriginId: WordPress
+            ViewerProtocolPolicy: redirect-to-https
+          - AllowedMethods:
+              - GET
+              - HEAD
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            DefaultTTL: 86400
+            ForwardedValues:
+              Cookies:
+                Forward: none
+              Headers:
+                - Accept
+                - Authorization
+                - CloudFront-Forwarded-Proto
+                - Host
+                - Origin
+              QueryString: true
+            MaxTTL: 31536000
+            MinTTL: 43200
+            PathPattern: wp-content/*
+            TargetOriginId: WordPress
+            ViewerProtocolPolicy: redirect-to-https
+          - AllowedMethods:
+              - DELETE
+              - GET
+              - HEAD
+              - OPTIONS
+              - PATCH
+              - POST
+              - PUT
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            DefaultTTL: 60
+            ForwardedValues:
+              Cookies:
+                'Fn::If':
+                  - HasCDNCookieWhiteLists
+                  - Forward: whitelist
+                    WhitelistedNames:
+                      Ref: CDNCookieWhiteLists
+                  - Forward: all
+              Headers:
+                - Accept
+                - Authorization
+                - CloudFront-Forwarded-Proto
+                - Host
+                - Content-Type
+                - Origin
+              QueryString: true
+            MaxTTL: 60
+            MinTTL: 30
+            PathPattern: wp-json/*
+            TargetOriginId: WordPress
+            ViewerProtocolPolicy: redirect-to-https
+          - AllowedMethods:
+              - GET
+              - HEAD
+            CachedMethods:
+              - GET
+              - HEAD
+            Compress: true
+            DefaultTTL: 3600
+            ForwardedValues:
+              Cookies:
+                'Fn::If':
+                  - HasCDNCookieWhiteLists
+                  - Forward: whitelist
+                    WhitelistedNames:
+                      Ref: CDNCookieWhiteLists
+                  - Forward: none
+              Headers:
+                - Accept
+                - Authorization
+                - CloudFront-Forwarded-Proto
+                - Host
+                - Origin
+              QueryString: true
+            MaxTTL: 86400
+            MinTTL: 600
+            PathPattern: feed*
+            TargetOriginId: WordPress
+            ViewerProtocolPolicy: allow-all
+        Comment: Web Distribution for WordPress powered by AMIMOTO
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - DELETE
+            - GET
+            - HEAD
+            - OPTIONS
+            - PATCH
+            - POST
+            - PUT
+          CachedMethods:
+            - GET
+            - HEAD
+          Compress: false
+          DefaultTTL: 3600
+          ForwardedValues:
+            Cookies:
+              'Fn::If':
+                - HasCDNCookieWhiteLists
+                - Forward: whitelist
+                  WhitelistedNames:
+                    Ref: CDNCookieWhiteLists
+                - Forward: all
+            Headers:
+              - Accept
+              - Authorization
+              - CloudFront-Forwarded-Proto
+              - CloudFront-Is-Desktop-Viewer
+              - CloudFront-Is-Mobile-Viewer
+              - CloudFront-Is-Tablet-Viewer
+              - Host
+              - Origin
+            QueryString: true
+          MaxTTL: 3600
+          MinTTL: 600
+          TargetOriginId: WordPress
+          ViewerProtocolPolicy: allow-all
+        DefaultRootObject: index.php
+        Enabled: true
+        HttpVersion: http2
+        IPV6Enabled: true
+        Origins:
+          - CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginKeepaliveTimeout: 5
+              OriginProtocolPolicy: http-only
+              OriginReadTimeout: 60
+              OriginSSLProtocols:
+                - TLSv1.2
+            DomainName:
+              'Fn::GetAtt':
+                - ALBForWPEB7458E6
+                - DNSName
+            Id: WordPress
+        PriceClass:
+          Ref: CDNPriceClass
+        ViewerCertificate:
+          'Fn::If':
+            - HasACMCertificationARN
+            - AcmCertificateArn:
+                Ref: CDNCertificationARN
+              MinimumProtocolVersion: TLSv1.2_2018
+              SslSupportMethod: sni-only
+            - Ref: 'AWS::NoValue'
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+Outputs:
+  InstanceIDLoginId:
+    Value:
+      Ref: amimotoEC2
+  ServerIPAddress:
+    Value:
+      'Fn::GetAtt':
+        - amimotoEC2
+        - PublicIp
+  CloudFrontID:
+    Description: >-
+      Need to configure the C3 CloudFront Cache Clear plugin in the WordPress
+      admin.
+    Value:
+      Ref: CloudFront
+  Domain:
+    Description: The WordPress site domain from the CDN.
+    Value:
+      'Fn::GetAtt':
+        - CloudFront
+        - DomainName
