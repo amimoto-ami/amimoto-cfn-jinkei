@@ -1145,7 +1145,7 @@
                       {
                         "Ref": "DBPassword"
                       },
-                      "\",\"port\":-1.8881545897088193e+289,\"endpoint\":\"",
+                      "\",\"port\":-1.8881545897088184e+289,\"endpoint\":\"",
                       {
                         "Fn::GetAtt": [
                           "DatabaseCluster68FC2945",
@@ -1229,10 +1229,12 @@
       "Properties": {
         "DefaultActions": [
           {
-            "TargetGroupArn": {
-              "Ref": "ALBForWPHTTPLisnerHTTPTargetGroup2167176E"
+            "FixedResponseConfig": {
+              "ContentType": "text/plain",
+              "MessageBody": "Not authorized CloudFront access.",
+              "StatusCode": "403"
             },
-            "Type": "forward"
+            "Type": "fixed-response"
           }
         ],
         "LoadBalancerArn": {
@@ -1269,34 +1271,7 @@
         }
       }
     },
-    "DenyDirectAccessAF93FC5A": {
-      "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
-      "Properties": {
-        "Actions": [
-          {
-            "FixedResponseConfig": {
-              "ContentType": "text/plain",
-              "MessageBody": "Not authorized CloudFront access.",
-              "StatusCode": "403"
-            },
-            "Type": "fixed-response"
-          }
-        ],
-        "Conditions": [
-          {
-            "Field": "path-pattern",
-            "Values": [
-              "*"
-            ]
-          }
-        ],
-        "ListenerArn": {
-          "Ref": "ALBForWPHTTPLisner4DE72305"
-        },
-        "Priority": 1
-      }
-    },
-    "AllowCloudFrontAccessD5C79D7F": {
+    "ALBForWPHTTPLisnerHTTPTargetRuleB131F4AA": {
       "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
       "Properties": {
         "Actions": [
@@ -1321,7 +1296,7 @@
         "ListenerArn": {
           "Ref": "ALBForWPHTTPLisner4DE72305"
         },
-        "Priority": 2
+        "Priority": 1
       }
     },
     "CloudFront": {

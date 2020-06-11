@@ -787,7 +787,7 @@ Resources:
                     - Ref: DBUsername
                     - '","password":"'
                     - Ref: DBPassword
-                    - '","port":-1.8881545897088193e+289,"endpoint":"'
+                    - '","port":-1.8881545897088184e+289,"endpoint":"'
                     - 'Fn::GetAtt':
                         - DatabaseCluster68FC2945
                         - Endpoint.Address
@@ -845,9 +845,11 @@ Resources:
     Type: 'AWS::ElasticLoadBalancingV2::Listener'
     Properties:
       DefaultActions:
-        - TargetGroupArn:
-            Ref: ALBForWPHTTPLisnerHTTPTargetGroup2167176E
-          Type: forward
+        - FixedResponseConfig:
+            ContentType: text/plain
+            MessageBody: Not authorized CloudFront access.
+            StatusCode: '403'
+          Type: fixed-response
       LoadBalancerArn:
         Ref: ALBForWPEB7458E6
       Port: 80
@@ -869,23 +871,7 @@ Resources:
       TargetType: instance
       VpcId:
         Ref: AMIMOTOVPC2FEB3257
-  DenyDirectAccessAF93FC5A:
-    Type: 'AWS::ElasticLoadBalancingV2::ListenerRule'
-    Properties:
-      Actions:
-        - FixedResponseConfig:
-            ContentType: text/plain
-            MessageBody: Not authorized CloudFront access.
-            StatusCode: '403'
-          Type: fixed-response
-      Conditions:
-        - Field: path-pattern
-          Values:
-            - '*'
-      ListenerArn:
-        Ref: ALBForWPHTTPLisner4DE72305
-      Priority: 1
-  AllowCloudFrontAccessD5C79D7F:
+  ALBForWPHTTPLisnerHTTPTargetRuleB131F4AA:
     Type: 'AWS::ElasticLoadBalancingV2::ListenerRule'
     Properties:
       Actions:
@@ -900,7 +886,7 @@ Resources:
               - 'true'
       ListenerArn:
         Ref: ALBForWPHTTPLisner4DE72305
-      Priority: 2
+      Priority: 1
   CloudFront:
     Type: 'AWS::CloudFront::Distribution'
     Properties:
