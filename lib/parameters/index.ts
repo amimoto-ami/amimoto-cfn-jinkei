@@ -61,7 +61,7 @@ export const createCFNParameters = async (stack: Stack, options: {
             {
                 type: "String",
                 description: "Database password",
-                default: "amimotoAMI#123"
+                noEcho: true,
             }
         )
         parameters.isMultiAZDatabase = new CfnParameter(

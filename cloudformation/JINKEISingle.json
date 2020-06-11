@@ -158,53 +158,53 @@
   },
   "Mappings": {
     "MPAmimotoAMIID": {
-      "ap-northeast-1": {
-        "ID": "ami-035e5e162165febe0"
-      },
       "ap-northeast-2": {
         "ID": "ami-00c98be6e9c1d66b2"
       },
-      "ap-south-1": {
-        "ID": "ami-097dcad7138ccb536"
+      "ap-northeast-1": {
+        "ID": "ami-035e5e162165febe0"
       },
       "ap-southeast-1": {
         "ID": "ami-04d181614a6517ef0"
       },
+      "ap-south-1": {
+        "ID": "ami-097dcad7138ccb536"
+      },
       "eu-north-1": {
         "ID": "ami-44f0793a"
-      },
-      "eu-west-2": {
-        "ID": "ami-051fb6b81e63938e1"
-      },
-      "us-east-2": {
-        "ID": "ami-059b263c628bd4024"
-      },
-      "eu-west-3": {
-        "ID": "ami-0b14b8c57ecae29c3"
       },
       "ca-central-1": {
         "ID": "ami-0926a670bad4c8b5f"
       },
-      "ap-southeast-2": {
-        "ID": "ami-0e9565e36d146bdde"
+      "us-east-2": {
+        "ID": "ami-059b263c628bd4024"
       },
       "us-west-1": {
         "ID": "ami-0fc4ffa86af79d63c"
       },
-      "sa-east-1": {
-        "ID": "ami-0c05904702174ae1e"
+      "eu-west-3": {
+        "ID": "ami-0b14b8c57ecae29c3"
       },
-      "eu-west-1": {
-        "ID": "ami-02b8792004857dbfd"
+      "eu-west-2": {
+        "ID": "ami-051fb6b81e63938e1"
       },
-      "us-east-1": {
-        "ID": "ami-08ade0705b256fd98"
+      "ap-southeast-2": {
+        "ID": "ami-0e9565e36d146bdde"
       },
       "us-west-2": {
         "ID": "ami-0cea9f4f0c9b50387"
       },
+      "sa-east-1": {
+        "ID": "ami-0c05904702174ae1e"
+      },
+      "us-east-1": {
+        "ID": "ami-08ade0705b256fd98"
+      },
       "eu-central-1": {
         "ID": "ami-0045f4bc81be2f366"
+      },
+      "eu-west-1": {
+        "ID": "ami-02b8792004857dbfd"
       }
     }
   },
