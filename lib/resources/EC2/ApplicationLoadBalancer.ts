@@ -31,7 +31,7 @@ export class ALB {
             port: 80,
             targets: [new InstanceTarget(ec2.ref)],
             healthCheck: {
-                path: '/wp-login.php',
+                path: '/wp-admin/install.php',
                 interval: Duration.seconds(30),
                 timeout: Duration.seconds(5)
             },

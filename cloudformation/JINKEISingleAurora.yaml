@@ -181,32 +181,32 @@ Mappings:
       ID: ami-00c98be6e9c1d66b2
     ap-southeast-1:
       ID: ami-04d181614a6517ef0
-    us-east-2:
-      ID: ami-059b263c628bd4024
-    us-west-2:
-      ID: ami-0cea9f4f0c9b50387
-    us-west-1:
-      ID: ami-0fc4ffa86af79d63c
     ap-south-1:
       ID: ami-097dcad7138ccb536
-    ap-southeast-2:
-      ID: ami-0e9565e36d146bdde
-    eu-north-1:
-      ID: ami-44f0793a
+    us-east-2:
+      ID: ami-059b263c628bd4024
     ca-central-1:
       ID: ami-0926a670bad4c8b5f
-    us-east-1:
-      ID: ami-08ade0705b256fd98
+    ap-southeast-2:
+      ID: ami-0e9565e36d146bdde
+    us-west-1:
+      ID: ami-0fc4ffa86af79d63c
+    eu-north-1:
+      ID: ami-44f0793a
+    us-west-2:
+      ID: ami-0cea9f4f0c9b50387
     eu-west-3:
       ID: ami-0b14b8c57ecae29c3
     eu-west-2:
       ID: ami-051fb6b81e63938e1
+    us-east-1:
+      ID: ami-08ade0705b256fd98
+    eu-west-1:
+      ID: ami-02b8792004857dbfd
     eu-central-1:
       ID: ami-0045f4bc81be2f366
     sa-east-1:
       ID: ami-0c05904702174ae1e
-    eu-west-1:
-      ID: ami-02b8792004857dbfd
 Conditions:
   HasCDNCookieWhiteLists:
     'Fn::Not':
@@ -856,7 +856,7 @@ Resources:
     Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
     Properties:
       HealthCheckIntervalSeconds: 30
-      HealthCheckPath: /wp-login.php
+      HealthCheckPath: /wp-admin/install.php
       HealthCheckTimeoutSeconds: 5
       Port: 80
       Protocol: HTTP
