@@ -87,7 +87,14 @@ class AMIIDFinder {
             }
             return
         }))
-        return mapping
+        if (Object.keys(mapping).length < 1) return mapping
+        const sortedMapping: ImageIdLists = {}
+        Object.keys(mapping)
+            .sort()
+            .forEach(region => {
+                sortedMapping[region] = mapping[region]
+            })
+        return sortedMapping
     }
 }
 
