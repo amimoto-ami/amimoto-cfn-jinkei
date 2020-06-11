@@ -241,38 +241,38 @@
       "ap-southeast-1": {
         "ID": "ami-04d181614a6517ef0"
       },
-      "eu-north-1": {
-        "ID": "ami-44f0793a"
-      },
-      "us-east-2": {
-        "ID": "ami-059b263c628bd4024"
+      "ap-southeast-2": {
+        "ID": "ami-0e9565e36d146bdde"
       },
       "ca-central-1": {
         "ID": "ami-0926a670bad4c8b5f"
       },
-      "us-west-1": {
-        "ID": "ami-0fc4ffa86af79d63c"
+      "eu-central-1": {
+        "ID": "ami-0045f4bc81be2f366"
       },
-      "ap-southeast-2": {
-        "ID": "ami-0e9565e36d146bdde"
-      },
-      "eu-west-3": {
-        "ID": "ami-0b14b8c57ecae29c3"
-      },
-      "eu-west-2": {
-        "ID": "ami-051fb6b81e63938e1"
+      "eu-north-1": {
+        "ID": "ami-44f0793a"
       },
       "eu-west-1": {
         "ID": "ami-02b8792004857dbfd"
       },
-      "us-east-1": {
-        "ID": "ami-08ade0705b256fd98"
+      "eu-west-2": {
+        "ID": "ami-051fb6b81e63938e1"
+      },
+      "eu-west-3": {
+        "ID": "ami-0b14b8c57ecae29c3"
       },
       "sa-east-1": {
         "ID": "ami-0c05904702174ae1e"
       },
-      "eu-central-1": {
-        "ID": "ami-0045f4bc81be2f366"
+      "us-east-1": {
+        "ID": "ami-08ade0705b256fd98"
+      },
+      "us-east-2": {
+        "ID": "ami-059b263c628bd4024"
+      },
+      "us-west-1": {
+        "ID": "ami-0fc4ffa86af79d63c"
       },
       "us-west-2": {
         "ID": "ami-0cea9f4f0c9b50387"
@@ -356,20 +356,20 @@
         "MapPublicIpOnLaunch": true,
         "Tags": [
           {
-            "Key": "Generator",
-            "Value": "JIN-KEI powered by AMIMOTO"
-          },
-          {
-            "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For EC2Subnet1"
-          },
-          {
             "Key": "aws-cdk:subnet-name",
             "Value": "For EC2"
           },
           {
             "Key": "aws-cdk:subnet-type",
             "Value": "Public"
+          },
+          {
+            "Key": "Generator",
+            "Value": "JIN-KEI powered by AMIMOTO"
+          },
+          {
+            "Key": "Name",
+            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For EC2Subnet1"
           }
         ]
       }
@@ -436,20 +436,20 @@
         "MapPublicIpOnLaunch": true,
         "Tags": [
           {
-            "Key": "Generator",
-            "Value": "JIN-KEI powered by AMIMOTO"
-          },
-          {
-            "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For EC2Subnet2"
-          },
-          {
             "Key": "aws-cdk:subnet-name",
             "Value": "For EC2"
           },
           {
             "Key": "aws-cdk:subnet-type",
             "Value": "Public"
+          },
+          {
+            "Key": "Generator",
+            "Value": "JIN-KEI powered by AMIMOTO"
+          },
+          {
+            "Key": "Name",
+            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For EC2Subnet2"
           }
         ]
       }
@@ -516,20 +516,20 @@
         "MapPublicIpOnLaunch": false,
         "Tags": [
           {
-            "Key": "Generator",
-            "Value": "JIN-KEI powered by AMIMOTO"
-          },
-          {
-            "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For DBSubnet1"
-          },
-          {
             "Key": "aws-cdk:subnet-name",
             "Value": "For DB"
           },
           {
             "Key": "aws-cdk:subnet-type",
             "Value": "Isolated"
+          },
+          {
+            "Key": "Generator",
+            "Value": "JIN-KEI powered by AMIMOTO"
+          },
+          {
+            "Key": "Name",
+            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For DBSubnet1"
           }
         ]
       }
@@ -581,20 +581,20 @@
         "MapPublicIpOnLaunch": false,
         "Tags": [
           {
-            "Key": "Generator",
-            "Value": "JIN-KEI powered by AMIMOTO"
-          },
-          {
-            "Key": "Name",
-            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For DBSubnet2"
-          },
-          {
             "Key": "aws-cdk:subnet-name",
             "Value": "For DB"
           },
           {
             "Key": "aws-cdk:subnet-type",
             "Value": "Isolated"
+          },
+          {
+            "Key": "Generator",
+            "Value": "JIN-KEI powered by AMIMOTO"
+          },
+          {
+            "Key": "Name",
+            "Value": "JINKEISingleMaria/AMIMOTO-VPC/For DBSubnet2"
           }
         ]
       }
@@ -1243,6 +1243,61 @@
         }
       }
     },
+    "DenyDirectAccessAF93FC5A": {
+      "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+      "Properties": {
+        "Actions": [
+          {
+            "FixedResponseConfig": {
+              "ContentType": "text/plain",
+              "MessageBody": "Not authorized CloudFront access.",
+              "StatusCode": "403"
+            },
+            "Type": "fixed-response"
+          }
+        ],
+        "Conditions": [
+          {
+            "Field": "path-pattern",
+            "Values": [
+              "*"
+            ]
+          }
+        ],
+        "ListenerArn": {
+          "Ref": "ALBForWPHTTPLisner4DE72305"
+        },
+        "Priority": 1
+      }
+    },
+    "AllowCloudFrontAccessD5C79D7F": {
+      "Type": "AWS::ElasticLoadBalancingV2::ListenerRule",
+      "Properties": {
+        "Actions": [
+          {
+            "TargetGroupArn": {
+              "Ref": "ALBForWPHTTPLisnerHTTPTargetGroup2167176E"
+            },
+            "Type": "forward"
+          }
+        ],
+        "Conditions": [
+          {
+            "Field": "http-header",
+            "HttpHeaderConfig": {
+              "HttpHeaderName": "X-IS-AMIMOTO",
+              "Values": [
+                "true"
+              ]
+            }
+          }
+        ],
+        "ListenerArn": {
+          "Ref": "ALBForWPHTTPLisner4DE72305"
+        },
+        "Priority": 2
+      }
+    },
     "CloudFront": {
       "Type": "AWS::CloudFront::Distribution",
       "Properties": {
@@ -1655,7 +1710,13 @@
                   "DNSName"
                 ]
               },
-              "Id": "WordPress"
+              "Id": "WordPress",
+              "OriginCustomHeaders": [
+                {
+                  "HeaderName": "X-IS-AMIMOTO",
+                  "HeaderValue": "true"
+                }
+              ]
             }
           ],
           "PriceClass": {

@@ -322,8 +322,12 @@ export default class CloudFrontResource {
                         originReadTimeout: 60,
                         originSslProtocols: [
                             "TLSv1.2"
-                        ]
+                        ],
                     },
+                    originCustomHeaders: [{
+                      headerName: 'X-IS-AMIMOTO',
+                      headerValue: 'true'
+                    }],
                     domainName: ec2DNSName,
                     id: originIdWordPress
                 }],
