@@ -632,11 +632,11 @@
         }
       }
     },
-    "SecurityGroupForInstance9EE06232": {
+    "SecurityGroupForLoadBalancer41D4B6A5": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
-        "GroupDescription": "JINKEISingleAurora/SecurityGroupForInstance",
-        "GroupName": "For EC2",
+        "GroupDescription": "JINKEISingleAurora/SecurityGroupForLoadBalancer",
+        "GroupName": "For LoadBalancer",
         "SecurityGroupEgress": [
           {
             "CidrIp": "0.0.0.0/0",
@@ -658,7 +658,32 @@
             "FromPort": 80,
             "IpProtocol": "tcp",
             "ToPort": 80
-          },
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Generator",
+            "Value": "JIN-KEI powered by AMIMOTO"
+          }
+        ],
+        "VpcId": {
+          "Ref": "AMIMOTOVPC2FEB3257"
+        }
+      }
+    },
+    "SecurityGroupForInstance9EE06232": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "JINKEISingleAurora/SecurityGroupForInstance",
+        "GroupName": "For EC2",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "SecurityGroupIngress": [
           {
             "CidrIp": {
               "Ref": "EC2SSHLocationIP"
@@ -689,6 +714,27 @@
         "VpcId": {
           "Ref": "AMIMOTOVPC2FEB3257"
         }
+      }
+    },
+    "SecurityGroupForInstancefromJINKEISingleAuroraSecurityGroupForLoadBalancer2F9D6D3F80ABC89B79": {
+      "Type": "AWS::EC2::SecurityGroupIngress",
+      "Properties": {
+        "IpProtocol": "tcp",
+        "Description": "from JINKEISingleAuroraSecurityGroupForLoadBalancer2F9D6D3F:80",
+        "FromPort": 80,
+        "GroupId": {
+          "Fn::GetAtt": [
+            "SecurityGroupForInstance9EE06232",
+            "GroupId"
+          ]
+        },
+        "SourceSecurityGroupId": {
+          "Fn::GetAtt": [
+            "SecurityGroupForLoadBalancer41D4B6A5",
+            "GroupId"
+          ]
+        },
+        "ToPort": 80
       }
     },
     "SecurityGroupForDatabaseE9719927": {
@@ -733,45 +779,6 @@
           ]
         },
         "ToPort": 3306
-      }
-    },
-    "SecurityGroupForLoadBalancer41D4B6A5": {
-      "Type": "AWS::EC2::SecurityGroup",
-      "Properties": {
-        "GroupDescription": "JINKEISingleAurora/SecurityGroupForLoadBalancer",
-        "GroupName": "For LoadBalancer",
-        "SecurityGroupEgress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow all outbound traffic by default",
-            "IpProtocol": "-1"
-          }
-        ],
-        "SecurityGroupIngress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "from 0.0.0.0/0:80",
-            "FromPort": 80,
-            "IpProtocol": "tcp",
-            "ToPort": 80
-          },
-          {
-            "CidrIpv6": "::/0",
-            "Description": "from ::/0:80",
-            "FromPort": 80,
-            "IpProtocol": "tcp",
-            "ToPort": 80
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "Generator",
-            "Value": "JIN-KEI powered by AMIMOTO"
-          }
-        ],
-        "VpcId": {
-          "Ref": "AMIMOTOVPC2FEB3257"
-        }
       }
     },
     "IAMPolicyForCloudFrontC87F906D": {
@@ -1145,7 +1152,7 @@
                       {
                         "Ref": "DBPassword"
                       },
-                      "\",\"port\":-1.8881545897088184e+289,\"endpoint\":\"",
+                      "\",\"port\":-1.8881545897088189e+289,\"endpoint\":\"",
                       {
                         "Fn::GetAtt": [
                           "DatabaseCluster68FC2945",

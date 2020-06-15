@@ -12,6 +12,7 @@ import { AuroraMySQLDB } from '../resources/RDS/AuroraMySQL';
 import { ALB } from '../resources/EC2/ApplicationLoadBalancer';
 import { DatabaseEngine } from '../model';
 import { createCFNMappings } from '../mappings';
+import { Peer } from '@aws-cdk/aws-ec2';
 
 interface StackProps extends cdk.StackProps {
   databaseType: DatabaseEngine;
@@ -47,18 +48,19 @@ export class AMIMOTOSingleStack extends cdk.Stack {
       /**
        * Security Group
        */
-      const sgForInstance = SGForInstance.create(this, params, {
+      const sgForLB = SGForLB.create(this, params, {
         vpc
+      })
+      resources.push(sgForLB)
+      const sgForInstance = SGForInstance.create(this, params, {
+        vpc,
+        sgForLB
       })
       resources.push(sgForInstance)
       const sgForDB = SGForDB.create(this, params, {
         vpc, sgForInstance
       })
       resources.push(sgForDB)
-      const sgForLB = SGForLB.create(this, params, {
-        vpc
-      })
-      resources.push(sgForLB)
 
       // IAM Instance Role
       const instanceRole = EC2InstanceRole.create(this)

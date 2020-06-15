@@ -442,11 +442,11 @@ Resources:
         Ref: AMIMOTOVPC2FEB3257
       InternetGatewayId:
         Ref: AMIMOTOVPCIGWB41F301F
-  SecurityGroupForInstance9EE06232:
+  SecurityGroupForLoadBalancer41D4B6A5:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: JINKEISingleMaria/SecurityGroupForInstance
-      GroupName: For EC2
+      GroupDescription: JINKEISingleMaria/SecurityGroupForLoadBalancer
+      GroupName: For LoadBalancer
       SecurityGroupEgress:
         - CidrIp: 0.0.0.0/0
           Description: Allow all outbound traffic by default
@@ -462,6 +462,21 @@ Resources:
           FromPort: 80
           IpProtocol: tcp
           ToPort: 80
+      Tags:
+        - Key: Generator
+          Value: JIN-KEI powered by AMIMOTO
+      VpcId:
+        Ref: AMIMOTOVPC2FEB3257
+  SecurityGroupForInstance9EE06232:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: JINKEISingleMaria/SecurityGroupForInstance
+      GroupName: For EC2
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: '-1'
+      SecurityGroupIngress:
         - CidrIp:
             Ref: EC2SSHLocationIP
           Description:
@@ -478,6 +493,21 @@ Resources:
           Value: JIN-KEI powered by AMIMOTO
       VpcId:
         Ref: AMIMOTOVPC2FEB3257
+  SecurityGroupForInstancefromJINKEISingleMariaSecurityGroupForLoadBalancerB9CB8A9880870BC08C:
+    Type: 'AWS::EC2::SecurityGroupIngress'
+    Properties:
+      IpProtocol: tcp
+      Description: 'from JINKEISingleMariaSecurityGroupForLoadBalancerB9CB8A98:80'
+      FromPort: 80
+      GroupId:
+        'Fn::GetAtt':
+          - SecurityGroupForInstance9EE06232
+          - GroupId
+      SourceSecurityGroupId:
+        'Fn::GetAtt':
+          - SecurityGroupForLoadBalancer41D4B6A5
+          - GroupId
+      ToPort: 80
   SecurityGroupForDatabaseE9719927:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
@@ -507,31 +537,6 @@ Resources:
           - SecurityGroupForInstance9EE06232
           - GroupId
       ToPort: 3306
-  SecurityGroupForLoadBalancer41D4B6A5:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: JINKEISingleMaria/SecurityGroupForLoadBalancer
-      GroupName: For LoadBalancer
-      SecurityGroupEgress:
-        - CidrIp: 0.0.0.0/0
-          Description: Allow all outbound traffic by default
-          IpProtocol: '-1'
-      SecurityGroupIngress:
-        - CidrIp: 0.0.0.0/0
-          Description: 'from 0.0.0.0/0:80'
-          FromPort: 80
-          IpProtocol: tcp
-          ToPort: 80
-        - CidrIpv6: '::/0'
-          Description: 'from ::/0:80'
-          FromPort: 80
-          IpProtocol: tcp
-          ToPort: 80
-      Tags:
-        - Key: Generator
-          Value: JIN-KEI powered by AMIMOTO
-      VpcId:
-        Ref: AMIMOTOVPC2FEB3257
   IAMPolicyForCloudFrontC87F906D:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
