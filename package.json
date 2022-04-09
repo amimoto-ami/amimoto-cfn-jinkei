@@ -42,7 +42,7 @@
     "@aws-cdk/aws-rds": "^1.45.0",
     "@aws-cdk/core": "^1.45.0",
     "aws-sdk": "^2.664.0",
-    "moment": "^2.25.3",
+    "moment": "^2.29.2",
     "source-map-support": "^0.5.16"
   }
 }
